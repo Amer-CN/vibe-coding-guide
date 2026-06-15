@@ -1,42 +1,67 @@
-# 许可协议 / License
+# License / 许可协议
 
+**vibe-coding-guide**
 Copyright (c) 2026 Amer-CN
+Contact / 联系方式: cd.hyxc.jz@foxmail.com
 
-本技能(vibe-coding-guide,包含其原则、操作规则、清单与参考文档)采用**双重许可**。
+This project is released under a **Dual License**. The English version below is provided for convention and international readers; the Chinese version is the authoritative version for the project's primary (Chinese-speaking) audience. In case of conflict, the Chinese version prevails.
 
----
-
-## 1. 免费许可(开源与个人使用)
-
-在以下用途下,你可以**免费使用、复制、修改和再分发**本技能:
-
-- 个人学习与非商业项目
-- 教育、教学场景
-- 发布在采用 OSI 批准的开源许可或知识共享(Creative Commons)许可的公开项目中
-- 免费的文章、博客、教程等公开内容
-
-欢迎署名,但不强制。
+本项目采用**双重许可**。以下英文版仅为符合惯例及方便国际读者;中文版为面向本项目主要受众的权威版本。如有冲突,以中文版为准。
 
 ---
 
-## 2. 商业许可(闭源 / 盈利使用)
+## English
 
-如果你将本技能(或基于它衍生的规则体系、协作流程、脚本)用于**任何形式的盈利或商业交付**,必须先获得作者的商业授权。包括但不限于:
+### 1. Free Use (no permission needed)
 
-- 在二手平台(如闲鱼)等渠道倒卖、转售本技能
-- 将本技能包装进付费课程、付费专栏、付费社群、付费咨询或工作坊
-- 以"教你用 AI 编程"为名,借助本技能开展收费服务或培训
-- 用于闭源软件、商业产品、内部商业系统,或受保密协议约束的客户交付
-- 用于商业推广、营销物料
+You may freely use, copy, modify, and share this project, in whole or in part, for the following **non-commercial** purposes:
 
-一句话:**你可以免费用它,但不能把它当作你赚钱的工具。**
+- Personal learning and personal projects
+- Education and academic use
+- Open-source projects
+- Free, publicly available tutorial or educational content
 
-商业授权请联系:cd.hyxc.jz@foxmail.com
+When sharing or redistributing, please retain this copyright notice and a link to the original repository.
+
+### 2. Commercial Use (prior written authorization required)
+
+You must obtain prior written permission from the author before using this project, in whole or in part, for any purpose that generates revenue, including but not limited to:
+
+- Selling or reselling it, in any form (including secondhand marketplaces such as Xianyu / 闲鱼)
+- Bundling it into paid courses, paid tutorials, paid communities, or paid consulting / services (e.g. charging to "teach beginners to code with AI")
+- Incorporating it into a closed-source or commercial product
+
+To request commercial authorization, contact: cd.hyxc.jz@foxmail.com
+
+### 3. No Warranty
+
+This project is provided "as is", without warranty of any kind. The author is not liable for any damages arising from its use.
 
 ---
 
-## 说明
+## 中文(以本中文版为准)
 
-- "使用"既指本技能的文本本身,也指按照本技能规范产出的流程与文档。
-- 你为开源或免费项目产出的成果仍归你所有,适用免费许可条款。
-- 本许可仅约束本技能,不覆盖你所使用的 AI 工具、编辑器、框架等第三方服务。
+### 一、免费使用(无需授权)
+
+你可以自由使用、复制、修改、分享本项目的全部或部分内容,用于以下**非商业**目的:
+
+- 个人学习与个人项目
+- 教育与学术用途
+- 开源项目
+- 免费、公开的教程或科普内容
+
+转发或再分发时,请保留本版权声明,并附上原仓库链接。
+
+### 二、商业使用(须事先获得书面授权)
+
+将本项目的全部或部分用于任何盈利用途前,必须先获得作者的书面许可,包括但不限于:
+
+- 以任何形式出售、转售、倒卖(包括闲鱼等二手平台)
+- 打包进付费课程、付费教程、付费社群、付费咨询/服务(例如收费"教小白用 AI 编程")
+- 集成进闭源或商业产品
+
+申请商业授权请联系:cd.hyxc.jz@foxmail.com
+
+### 三、免责声明
+
+本项目按"现状"提供,不附带任何形式的担保。因使用本项目造成的任何损失,作者不承担责任。
