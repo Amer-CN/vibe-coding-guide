@@ -6,9 +6,9 @@
 
 ## 这是什么?
 
-一句话:**这是一份给 AI 编程用的"规矩本"。** 把它装进 Claude Code,AI 在帮你写代码时就会先想清楚、先跟你确认,并自动避开那些会闯祸的操作。
+一句话:**这是一份给 AI 编程用的"规矩本"。** 把它交给你的 AI 编程助手(Claude Code、Cursor、Codex 等都行),AI 在帮你写代码时就会先想清楚、先跟你确认,并自动避开那些会闯祸的操作。
 
-你不用写一行代码,也不用改你的编辑器。装好之后,AI 就会按这套规矩来配合你。
+你不用写一行代码,也不用改你的编辑器。用上之后,AI 就会按这套规矩来配合你。
 
 ---
 
@@ -58,38 +58,45 @@
 
 ---
 
-## 快速安装
+## 快速开始
 
-### 方法一:插件市场(推荐,两行命令)
+### 最简单:复制粘贴,任何 AI 都能用(小白看这里)
 
-在 Claude Code 里依次运行:
+不管你用 Claude、Cursor、Gemini 还是别的 AI 编程工具,最通用的办法只有一步:
+
+1. 打开本仓库的 `SKILL.md`(想要完整版,就再加上 `references/handbook.md`);
+2. 整段复制,粘贴进你的 AI 对话框,然后说一句:**"请严格按照上面这套规则来帮我写代码。"**
+
+如果你的 AI 能联网读链接,那就更省事——直接把这句话发给它:
+
+> 请阅读 https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md ,并严格按照里面的规则来协助我写代码。
+
+这种方式在**任何** AI 上都管用,不挑工具。
+
+### 进阶:Claude Code 自动加载(免反复粘贴)
+
+如果你用的是 Claude Code,可以让它常驻、每次自动生效,不用反复粘贴。三选一:
+
+**① 插件市场(推荐)**
 
 ```
 /plugin marketplace add Amer-CN/vibe-coding-guide
 /plugin install vibe-coding-guide@vibe-coding-guide
 ```
 
-### 方法二:一键脚本
-
-在终端运行:
+**② 一键脚本**
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh | bash
 ```
 
-脚本会自动把它装到 `~/.claude/skills/vibe-coding-guide`。
-
-### 方法三:手动安装
+**③ 手动**
 
 ```bash
 git clone https://github.com/Amer-CN/vibe-coding-guide.git ~/.claude/skills/vibe-coding-guide
 ```
 
-装好后,在 Claude Code 的新对话里说一句:
-
-> 我要用 vibe-coding-guide 规范来写代码,我想做一个……
-
-Claude 就会自动按这套规矩配合你。也可以直接用 `/vibe-coding-guide` 调用。
+用上之后,在新对话里说一句"我要用 vibe-coding-guide 规范来写代码,我想做一个……",Claude 会自动按规矩配合你,也可以用 `/vibe-coding-guide` 直接调用。
 
 ---
 
@@ -117,12 +124,12 @@ Claude 就会自动按这套规矩配合你。也可以直接用 `/vibe-coding-g
 
 ```
 vibe-coding-guide/
-├── SKILL.md              # 核心规矩,Claude 自动读取
+├── SKILL.md              # 核心规矩,AI 读这份就够
 ├── references/
 │   ├── handbook.md       # 完整手册:四条铁律 + 八条红线 + 工作流
 │   └── checklist.md      # 19 条安全检查清单
-├── install.sh            # 一键安装脚本
-├── .claude-plugin/       # 插件市场配置(用于一行安装)
+├── install.sh            # 一键安装脚本(Claude Code)
+├── .claude-plugin/       # 插件市场配置(Claude Code 一行安装)
 ├── LICENSE.md            # 双重许可协议
 └── README.md             # 本文件
 ```
