@@ -22,9 +22,26 @@
 
 ---
 
-## 🚀 最快上手(复制一段话,丢给你的 AI)
+## 🚀 怎么开始用(三选一)
 
-**最简单、任何 AI 都能用**:复制下面这段,粘贴进你的 AI 对话框(Claude、Cursor、Gemini……都行),发送即可——
+挑一个你顺手的就行:
+
+**① 插件市场(推荐,Claude Code)**
+
+```
+/plugin marketplace add Amer-CN/vibe-coding-guide
+/plugin install vibe-coding-guide@vibe-coding-guide
+```
+
+**② 一键脚本(Claude Code)**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh | bash
+```
+
+**③ 复制给 agent(任何 AI 都行)**
+
+复制下面这段,粘贴进你的 AI 对话框(Claude、Cursor、Gemini……都行),发送即可——
 
 ```text
 请阅读并严格遵守这份《AI 编程安全规则》:
@@ -35,32 +52,7 @@ https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
 
 > 💡 如果你的 AI 不能联网打开链接,就直接打开仓库里的 `SKILL.md`,把内容整段复制、粘贴给它,效果一样。
 
----
-
-## 🧩 进阶:让 Claude Code 自动加载(免反复粘贴)
-
-如果你用 Claude Code,可以让规则"常驻",每次自动生效。三选一:
-
-**① 插件市场(推荐)**
-
-```
-/plugin marketplace add Amer-CN/vibe-coding-guide
-/plugin install vibe-coding-guide@vibe-coding-guide
-```
-
-**② 一键脚本**
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh | bash
-```
-
-**③ 手动**
-
-```bash
-git clone https://github.com/Amer-CN/vibe-coding-guide.git ~/.claude/skills/vibe-coding-guide
-```
-
-装好后,在新对话里说"我要用 vibe-coding-guide 规范写代码,我想做一个……",Claude 会自动按规矩配合你,也可以用 `/vibe-coding-guide` 直接调用。
+用①②装好后,在新对话里说"我要用 vibe-coding-guide 规范写代码,我想做一个……",Claude 会自动按规矩配合你,也可以用 `/vibe-coding-guide` 直接调用。
 
 ---
 

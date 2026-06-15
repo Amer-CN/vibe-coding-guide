@@ -22,9 +22,26 @@ You don't write a single line of code, and you don't change your editor. Once it
 
 ---
 
-## 🚀 Quick start (copy one message, paste it to your AI)
+## 🚀 How to start (pick one)
 
-**Simplest, works with any AI**: copy the block below, paste it into your AI chat (Claude, Cursor, Gemini… all work), and send —
+Pick whichever is easiest for you:
+
+**① Plugin marketplace (recommended, Claude Code)**
+
+```
+/plugin marketplace add Amer-CN/vibe-coding-guide
+/plugin install vibe-coding-guide@vibe-coding-guide
+```
+
+**② One-line script (Claude Code)**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh | bash
+```
+
+**③ Paste it to your agent (works with any AI)**
+
+Copy the block below, paste it into your AI chat (Claude, Cursor, Gemini… all work), and send —
 
 ```text
 Please read and strictly follow these AI coding safety rules:
@@ -35,32 +52,7 @@ From now on, follow these rules whenever you help me write code.
 
 > 💡 If your AI can't open links, just open `SKILL.md` in this repo, copy the whole content, and paste it to your AI — same effect.
 
----
-
-## 🧩 Advanced: auto-load in Claude Code (no repeated pasting)
-
-If you use Claude Code, you can make the rules "always on". Pick one:
-
-**① Plugin marketplace (recommended)**
-
-```
-/plugin marketplace add Amer-CN/vibe-coding-guide
-/plugin install vibe-coding-guide@vibe-coding-guide
-```
-
-**② One-line script**
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh | bash
-```
-
-**③ Manual**
-
-```bash
-git clone https://github.com/Amer-CN/vibe-coding-guide.git ~/.claude/skills/vibe-coding-guide
-```
-
-After installing, in a new chat say "I want to write code using the vibe-coding-guide rules, I want to build …", and Claude will follow the rules automatically. You can also invoke it directly with `/vibe-coding-guide`.
+After installing with ① / ②, in a new chat say "I want to write code using the vibe-coding-guide rules, I want to build …", and Claude will follow the rules automatically. You can also invoke it directly with `/vibe-coding-guide`.
 
 ---
 
