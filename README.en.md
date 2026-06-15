@@ -1,6 +1,6 @@
-<h1 align="center">vibe-coding-guide</h1>
-
-<p align="center">🛡️ Safety rails for AI coding — your AI thinks, confirms, and avoids dangerous moves before it touches your code.<br>You don't need to know how to code to let AI build for you safely.</p>
+<p align="center">
+  <img src="assets/banner.jpg" alt="vibe-coding-guide — safety rails for AI coding" width="100%">
+</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/%F0%9F%91%B6%20made%20for-beginners-ff69b4" alt="made for beginners">

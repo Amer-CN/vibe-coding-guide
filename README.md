@@ -1,6 +1,6 @@
-<h1 align="center">vibe-coding-guide</h1>
-
-<p align="center">🛡️ 给 AI 编程装上"安全护栏"——让 AI 改代码前先思考、先确认、先避开会闯祸的操作。<br>不懂代码,也能放心让 AI 动手。</p>
+<p align="center">
+  <img src="assets/banner.jpg" alt="vibe-coding-guide — 给 AI 编程装上安全护栏" width="100%">
+</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/%F0%9F%91%B6%20made%20for-beginners-ff69b4" alt="made for beginners">
