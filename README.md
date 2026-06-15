@@ -1,6 +1,16 @@
-# vibe-coding-guide
+<h1 align="center">vibe-coding-guide</h1>
 
-> 给 AI 编程装上"安全护栏"——让 AI 在改代码前先思考、先确认、先避开会闯祸的操作。不懂代码,也能放心让 AI 动手。
+<p align="center">🛡️ 给 AI 编程装上"安全护栏"——让 AI 改代码前先思考、先确认、先避开会闯祸的操作。<br>不懂代码,也能放心让 AI 动手。</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/%F0%9F%91%B6%20made%20for-beginners-ff69b4" alt="made for beginners">
+  <img src="https://img.shields.io/badge/%F0%9F%A4%96%20works%20with-any%20AI-brightgreen" alt="works with any AI">
+  <img src="https://img.shields.io/badge/%E2%9A%A1%20install-copy%20%26%20paste-1f6feb" alt="copy and paste install">
+  <img src="https://img.shields.io/badge/%F0%9F%93%84%20license-Dual-orange" alt="dual license">
+  <img src="https://img.shields.io/badge/docs-EN%20%2B%20%E4%B8%AD%E6%96%87-9cf" alt="EN plus Chinese">
+</p>
+
+<p align="center"><b>简体中文</b> | <a href="README.en.md">English</a></p>
 
 ---
 
@@ -9,6 +19,51 @@
 一句话:**这是一份给 AI 编程用的"规矩本"。** 把它交给你的 AI 编程助手(Claude Code、Cursor、Codex 等都行),AI 在帮你写代码时就会先想清楚、先跟你确认,并自动避开那些会闯祸的操作。
 
 你不用写一行代码,也不用改你的编辑器。用上之后,AI 就会按这套规矩来配合你。
+
+---
+
+## 🚀 最快上手(复制一段话,丢给你的 AI)
+
+**最简单、任何 AI 都能用**:复制下面这段,粘贴进你的 AI 对话框(Claude、Cursor、Gemini……都行),发送即可——
+
+```text
+请阅读并严格遵守这份《AI 编程安全规则》:
+https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
+
+想要完整版规则,再加这一份:
+https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/references/handbook.md
+
+从现在起,帮我写代码时,请全程按上面的规则来。
+```
+
+> 💡 如果你的 AI 不能联网打开链接,就直接打开仓库里的 `SKILL.md`,把内容整段复制、粘贴给它,效果一样。
+
+---
+
+## 🧩 进阶:让 Claude Code 自动加载(免反复粘贴)
+
+如果你用 Claude Code,可以让规则"常驻",每次自动生效。三选一:
+
+**① 插件市场(推荐)**
+
+```
+/plugin marketplace add Amer-CN/vibe-coding-guide
+/plugin install vibe-coding-guide@vibe-coding-guide
+```
+
+**② 一键脚本**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh | bash
+```
+
+**③ 手动**
+
+```bash
+git clone https://github.com/Amer-CN/vibe-coding-guide.git ~/.claude/skills/vibe-coding-guide
+```
+
+装好后,在新对话里说"我要用 vibe-coding-guide 规范写代码,我想做一个……",Claude 会自动按规矩配合你,也可以用 `/vibe-coding-guide` 直接调用。
 
 ---
 
@@ -58,48 +113,6 @@
 
 ---
 
-## 快速开始
-
-### 最简单:复制粘贴,任何 AI 都能用(小白看这里)
-
-不管你用 Claude、Cursor、Gemini 还是别的 AI 编程工具,最通用的办法只有一步:
-
-1. 打开本仓库的 `SKILL.md`(想要完整版,就再加上 `references/handbook.md`);
-2. 整段复制,粘贴进你的 AI 对话框,然后说一句:**"请严格按照上面这套规则来帮我写代码。"**
-
-如果你的 AI 能联网读链接,那就更省事——直接把这句话发给它:
-
-> 请阅读 https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md ,并严格按照里面的规则来协助我写代码。
-
-这种方式在**任何** AI 上都管用,不挑工具。
-
-### 进阶:Claude Code 自动加载(免反复粘贴)
-
-如果你用的是 Claude Code,可以让它常驻、每次自动生效,不用反复粘贴。三选一:
-
-**① 插件市场(推荐)**
-
-```
-/plugin marketplace add Amer-CN/vibe-coding-guide
-/plugin install vibe-coding-guide@vibe-coding-guide
-```
-
-**② 一键脚本**
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh | bash
-```
-
-**③ 手动**
-
-```bash
-git clone https://github.com/Amer-CN/vibe-coding-guide.git ~/.claude/skills/vibe-coding-guide
-```
-
-用上之后,在新对话里说一句"我要用 vibe-coding-guide 规范来写代码,我想做一个……",Claude 会自动按规矩配合你,也可以用 `/vibe-coding-guide` 直接调用。
-
----
-
 ## 怎么用?(真实对比)
 
 **❌ 没用的时候**
@@ -131,7 +144,8 @@ vibe-coding-guide/
 ├── install.sh            # 一键安装脚本(Claude Code)
 ├── .claude-plugin/       # 插件市场配置(Claude Code 一行安装)
 ├── LICENSE.md            # 双重许可协议
-└── README.md             # 本文件
+├── README.md             # 本文件(中文)
+└── README.en.md          # 英文版
 ```
 
 ---
