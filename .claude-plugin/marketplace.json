@@ -1,0 +1,15 @@
+{
+  "name": "vibe-coding-guide",
+  "owner": {
+    "name": "Amer-CN",
+    "email": "cd.hyxc.jz@foxmail.com"
+  },
+  "plugins": [
+    {
+      "name": "vibe-coding-guide",
+      "source": "./",
+      "description": "给 AI 编程立规矩的安全护栏,让小白也能放心让 AI 动手改代码。",
+      "version": "1.0.0"
+    }
+  ]
+}

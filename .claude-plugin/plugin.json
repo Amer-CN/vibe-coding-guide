@@ -1,0 +1,11 @@
+{
+  "name": "vibe-coding-guide",
+  "version": "1.0.0",
+  "description": "给 AI 编程立规矩的安全护栏:让 AI 改代码前先思考、先确认、先避开会闯祸的操作。面向不懂代码、想用 AI 做小工具或小网站的普通人。",
+  "author": {
+    "name": "Amer-CN",
+    "email": "cd.hyxc.jz@foxmail.com"
+  },
+  "homepage": "https://github.com/Amer-CN/vibe-coding-guide",
+  "license": "SEE LICENSE.md"
+}
