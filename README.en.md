@@ -30,9 +30,6 @@ You don't write a single line of code, and you don't change your editor. Once it
 Please read and strictly follow these AI coding safety rules:
 https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
 
-For the full version of the rules, also read:
-https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/references/handbook.md
-
 From now on, follow these rules whenever you help me write code.
 ```
 
@@ -139,7 +136,7 @@ This guide is your **safety rail + experienced co-pilot**: you hit the gas, it w
 vibe-coding-guide/
 ├── SKILL.md              # Core rules — reading this is enough for the AI
 ├── references/
-│   ├── handbook.md       # Full handbook: 4 iron rules + 8 red lines + workflow
+│   ├── handbook.md       # Full handbook (the AI reads it on demand; you don't need to)
 │   └── checklist.md      # 19-item safety checklist
 ├── install.sh            # One-line install script (Claude Code)
 ├── .claude-plugin/       # Plugin marketplace config (one-line install for Claude Code)

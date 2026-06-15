@@ -30,10 +30,7 @@
 请阅读并严格遵守这份《AI 编程安全规则》:
 https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
 
-想要完整版规则,再加这一份:
-https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/references/handbook.md
-
-从现在起,帮我写代码时,请全程按上面的规则来。
+从现在起,帮我写代码时,请全程按上面这份规则来。
 ```
 
 > 💡 如果你的 AI 不能联网打开链接,就直接打开仓库里的 `SKILL.md`,把内容整段复制、粘贴给它,效果一样。
@@ -139,7 +136,7 @@ git clone https://github.com/Amer-CN/vibe-coding-guide.git ~/.claude/skills/vibe
 vibe-coding-guide/
 ├── SKILL.md              # 核心规矩,AI 读这份就够
 ├── references/
-│   ├── handbook.md       # 完整手册:四条铁律 + 八条红线 + 工作流
+│   ├── handbook.md       # 完整手册(AI 需要时自动查,你不用管)
 │   └── checklist.md      # 19 条安全检查清单
 ├── install.sh            # 一键安装脚本(Claude Code)
 ├── .claude-plugin/       # 插件市场配置(Claude Code 一行安装)
