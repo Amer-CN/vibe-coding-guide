@@ -56,6 +56,42 @@ After installing with ① / ②, in a new chat say "I want to write code using t
 
 ---
 
+## 🗣️ When does it kick in automatically?
+
+Once installed (via ① or ② above), you **don't have to call it by name** every time — whenever what you say hits one of the situations below, the AI will automatically follow these rules. Just say things like:
+
+**🚀 Starting something from scratch**
+
+- "I want to build an XX system / tool but have no idea where to start"
+- "Help me plan and build an XX from zero with AI"
+- "I want to make a website / mini-app / app / desktop tool / backend"
+
+**🔧 Something broke**
+
+- "Every fix breaks something else / it keeps getting messier"
+- "It errors / shows a blank page / won't log in on another computer"
+- "A screen full of red errors I can't read"
+- "The AI said it's fixed, but it really isn't"
+- "Two AIs say different things — which do I trust?"
+- "The AI told me to run a command — is it safe to click?"
+
+**🔒 Unsure about data & security**
+
+- "I lost / deleted data and can't get it back"
+- "How should I store passwords / ID numbers / bank cards?"
+- "The amounts / accounting never add up"
+- "Is this safe to ship? Could the database get leaked?"
+
+**🚢 Getting ready to ship / deliver**
+
+- "Do a full check-up on my old project"
+- "Is it ready to go live?"
+- "Help me deploy it and set up HTTPS"
+
+> 💡 To trigger it most reliably, just add "use the vibe-coding-guide rules"; if installed as a plugin, you can also call `/vibe-coding-guide` by name.
+
+---
+
 ## Why do you need it?
 
 If you build with AI, you've probably been through this "great → broken" loop:
