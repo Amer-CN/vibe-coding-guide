@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.jpg" alt="vibe-coding-guide — safety rails for AI coding" width="100%">
+  <img src="banner.jpg" alt="vibe-coding-guide — safety rails for AI coding" width="100%">
 </p>
 
 <p align="center">

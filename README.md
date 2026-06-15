@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.jpg" alt="vibe-coding-guide — 给 AI 编程装上安全护栏" width="100%">
+  <img src="banner.jpg" alt="vibe-coding-guide — 给 AI 编程装上安全护栏" width="100%">
 </p>
 
 <p align="center">
