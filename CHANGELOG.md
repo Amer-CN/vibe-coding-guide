@@ -12,6 +12,7 @@
 ### Changed
 - `references/checklist.md` 第 15 条补充「新加的每一条校验或拦截规则，是否本身也有一条测试覆盖」。
 - LICENSE.md 与插件元数据（plugin.json / marketplace.json）的中文标点统一为全角。
+- install.sh 与 README 明确区分「规矩本安装」与「完整安装」；护栏是否随 skills 目录安装生效未经实测，不做承诺。
 
 ## [2.0.0] - 2026-08-01
 

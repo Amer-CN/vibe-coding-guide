@@ -26,14 +26,14 @@ You don't write a single line of code, and you don't change your editor. Once it
 
 Pick whichever is easiest for you:
 
-**① Plugin marketplace (recommended, Claude Code)**
+**① Plugin marketplace (recommended, Claude Code) — full: rules + guards**
 
 ```
 /plugin marketplace add Amer-CN/vibe-coding-guide
 /plugin install vibe-coding-guide@vibe-coding-guide
 ```
 
-**② One-line script (Claude Code)**
+**② One-line script (Claude Code) — installs the rulebook only. Guards are not guaranteed to work this way; for guards, use ①.**
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh | bash
@@ -41,7 +41,7 @@ curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/inst
 
 > 🔐 This guide teaches you to "look before you click when someone tells you to run a command" — so it should follow its own advice. If you're not comfortable with `curl | bash`, first run `curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh -o install.sh` to inspect the script, and only then run `bash install.sh`. The script does exactly one thing: clones this repo into `~/.claude/skills/`.
 
-**③ Paste it to your agent (works with any AI)**
+**③ Paste it to your agent (works with any AI) — installs the rulebook only. Guards are not guaranteed to work this way; for guards, use ①.**
 
 Copy the block below, paste it into your AI chat (Claude, Cursor, Gemini… all work), and send —
 
@@ -206,6 +206,8 @@ Once the plugin is installed, the hooks are active automatically:
 To remove the hooks: `/plugin disable vibe-coding-guide`, or delete the `hooks/` directory and reinstall.
 
 ### After installing, take a minute to verify the guards are actually loaded
+
+The fastest diagnosis: type `/hooks` in Claude Code and check whether vibe-coding-guide's two PreToolUse entries appear in the list. If they don't, the guards are not loaded.
 
 The guards **silently pass through** when they fail — that's so you never get blocked by a broken hook, but it also means "no prompt" can mean either "nothing dangerous" or "the guards never loaded." Verify once after installing:
 

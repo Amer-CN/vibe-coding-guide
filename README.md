@@ -26,14 +26,14 @@
 
 挑一个你顺手的就行:
 
-**① 插件市场(推荐,Claude Code)**
+**① 插件市场(推荐,Claude Code)——完整：规矩本 + 护栏**
 
 ```
 /plugin marketplace add Amer-CN/vibe-coding-guide
 /plugin install vibe-coding-guide@vibe-coding-guide
 ```
 
-**② 一键脚本(Claude Code)**
+**② 一键脚本(Claude Code)——装规矩本。护栏不保证生效，需要护栏请用方式 ①。**
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh | bash
@@ -41,7 +41,7 @@ curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/inst
 
 > 🔐 这份指南教你"别人让你跑的命令要看清再点"，那它自己也该守规矩：不放心 `curl | bash` 的话，先执行 `curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh -o install.sh` 看一眼内容，确认后再 `bash install.sh`。脚本只做一件事——把本仓库 clone 到 `~/.claude/skills/`。
 
-**③ 复制给 agent(任何 AI 都行)**
+**③ 复制给 agent(任何 AI 都行)——装规矩本。护栏不保证生效，需要护栏请用方式 ①。**
 
 复制下面这段,粘贴进你的 AI 对话框(Claude、Cursor、Gemini……都行),发送即可——
 
@@ -210,6 +210,8 @@ vibe-coding-guide/
 不想要护栏：`/plugin disable vibe-coding-guide`，或删掉 `hooks/` 目录后重装。
 
 ### 装完后，花一分钟确认它真的生效了
+
+最快的确诊方式：在 Claude Code 里输入 `/hooks`，看列表里有没有 vibe-coding-guide 的两条 PreToolUse。没有，就是护栏没加载。
 
 护栏在自身出故障时会**静默放行**——这是为了不卡住你，但也意味着
 "没弹提示"可能是"没有危险"，也可能是"护栏根本没加载"。装完后请验一次：
