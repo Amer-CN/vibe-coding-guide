@@ -17,13 +17,48 @@
 
 ## What is this?
 
-In one sentence: **it's a "rulebook" for AI coding, plus a layer of guards that actually block dangerous operations.**
+You let the AI write code for you. It's obedient, and fast.
 
-Hand it to your AI coding assistant (Claude Code, Cursor, Codex, etc.), and when it writes code for you it will think first, confirm with you, and automatically steer clear of risky operations.
+Until one day it deletes a directory you haven't committed, or slips an API key
+into Git, or tells you to run a command you don't understand. By the time you
+notice, it's too late.
 
-If you use Claude Code and install via method ①, it will also block dangerous commands before the AI actually runs them — not a reminder; they just won't execute.
+**This project does two things: it gives the AI eleven rules, and the moment it
+is actually about to do something dangerous, it stops it.**
+
+Not a reminder — it just won't execute. But you still can; you just have to do
+it yourself.
+
+> AI coding shouldn't be a gamble. Put the rails on first, and you can finally let it do real work for you.
 
 ---
+
+## 🛑 What it blocks
+
+When the AI tries to run `rm -rf /`, this is what it sees:
+
+```
+⛔ vibe-coding-guide 拦截：这是对根目录或家目录的递归删除，会清空整台机器（铁律 1）。确需执行请你自己在终端手动运行。关闭护栏：/plugin disable vibe-coding-guide
+```
+
+> The guard messages are in Chinese — they come verbatim from the hooks source.
+
+These are also **blocked outright** (reasons verbatim from hooks/guard-bash.sh):
+
+| The AI tries | What it sees |
+|---|---|
+| `rm -rf .` | 这会删掉整个当前目录，包括你还没提交的代码（铁律 1） |
+| `git push -f main` | 强推主分支会永久覆盖远端历史，别人的提交会消失（红线 11） |
+| `drop database` | 这会删除整个数据库，且通常无法恢复（红线 6） |
+| `curl … \| bash` | 这是把网上下载的内容直接执行，你没机会看清它要做什么（红线 10） |
+
+These are not blocked, but it will **stop and ask you once**:
+
+| The AI tries | What it asks |
+|---|---|
+| `git add .env` | 你正在把 .env 加进 Git。密钥一旦提交，删掉也留在历史里（红线 7） |
+| `npm install <package>` | 要安装新依赖了。装之前请先确认包名全称、用途、周下载量和最近更新时间（红线 10） |
+
 
 ## 🚀 How to start (pick one)
 
@@ -97,18 +132,7 @@ Once installed (via ① or ② above), you **don't have to call it by name** eve
 
 ---
 
-## Why do you need it?
 
-If you build with AI, you've probably been through this "great → broken" loop:
-
-- The AI just fixed A, and now B, C, and D are mysteriously broken.
-- You can't really read the code, so you just nod at whatever the AI says — and when it breaks, you're stuck.
-- API keys and passwords get written straight into the code, nearly pushed to a public GitHub repo.
-- Project files pile up into a mess until neither you nor the AI can find anything.
-
-This guide is your **safety rail + experienced co-pilot**: you hit the gas, it watches the brakes.
-
----
 
 ## What can it do for you?
 
@@ -250,5 +274,3 @@ This project uses a **Dual License** (see `LICENSE.md`):
 
 - **Free use**: personal learning, open-source projects, free tutorial content.
 - **Commercial use requires authorization**: closed-source products, paid courses/services, reselling, etc. — contact the author first.
-
-> AI coding shouldn't be a gamble. Put the rails on first, and you can finally let it do real work for you.
