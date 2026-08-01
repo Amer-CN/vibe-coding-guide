@@ -39,6 +39,8 @@
 curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh | bash
 ```
 
+> 🔐 这份指南教你"别人让你跑的命令要看清再点"，那它自己也该守规矩：不放心 `curl | bash` 的话，先执行 `curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh -o install.sh` 看一眼内容，确认后再 `bash install.sh`。脚本只做一件事——把本仓库 clone 到 `~/.claude/skills/`。
+
 **③ 复制给 agent(任何 AI 都行)**
 
 复制下面这段,粘贴进你的 AI 对话框(Claude、Cursor、Gemini……都行),发送即可——
@@ -162,22 +164,27 @@ https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
 
 ```
 vibe-coding-guide/
-├── SKILL.md              # 核心规矩,AI 读这份就够
-├── references/
-│   ├── handbook.md       # 完整手册(AI 需要时自动查,你不用管)
-│   └── checklist.md      # 19 条安全检查清单
-├── install.sh            # 一键安装脚本(Claude Code)
-├── .claude-plugin/       # 插件市场配置(Claude Code 一行安装)
-├── LICENSE.md            # 双重许可协议
-├── README.md             # 本文件(中文)
-└── README.en.md          # 英文版
+├── SKILL.md                    # 核心规矩，AI 读这份就够
+├── references/                 # AI 按需查阅，你不用管
+│   ├── redlines.md             # 八条安全红线（展开版）
+│   ├── legacy-audit.md         # 老项目大检查
+│   ├── new-project.md          # 新项目三阶段 + 上线
+│   ├── scenarios.md            # 五类项目适配
+│   ├── ai-disputes.md          # 两个 AI 说法冲突怎么办
+│   └── checklist.md            # 19 条交付检查清单
+├── install.sh                  # 一键安装脚本（Claude Code）
+├── .claude-plugin/             # 插件市场配置
+├── CHANGELOG.md                # 版本变更记录
+├── LICENSE.md                  # 双重许可协议
+├── README.md                   # 本文件（中文）
+└── README.en.md                # 英文版
 ```
 
 ---
 
 ## 想自定义?
 
-直接改 `SKILL.md` 和 `references/checklist.md`,加上属于你的红线,比如:
+直接改 `SKILL.md` 和 `references/redlines.md`,加上属于你的红线,比如:
 
 - 不许动我的 `main` 分支
 - 任何花钱超过 1 块钱的操作都要先问我

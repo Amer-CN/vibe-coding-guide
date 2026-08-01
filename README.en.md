@@ -39,6 +39,8 @@ Pick whichever is easiest for you:
 curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh | bash
 ```
 
+> 🔐 This guide teaches you to "look before you click when someone tells you to run a command" — so it should follow its own advice. If you're not comfortable with `curl | bash`, first run `curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh -o install.sh` to inspect the script, and only then run `bash install.sh`. The script does exactly one thing: clones this repo into `~/.claude/skills/`.
+
 **③ Paste it to your agent (works with any AI)**
 
 Copy the block below, paste it into your AI chat (Claude, Cursor, Gemini… all work), and send —
@@ -162,22 +164,27 @@ This guide is your **safety rail + experienced co-pilot**: you hit the gas, it w
 
 ```
 vibe-coding-guide/
-├── SKILL.md              # Core rules — reading this is enough for the AI
-├── references/
-│   ├── handbook.md       # Full handbook (the AI reads it on demand; you don't need to)
-│   └── checklist.md      # 19-item safety checklist
-├── install.sh            # One-line install script (Claude Code)
-├── .claude-plugin/       # Plugin marketplace config (one-line install for Claude Code)
-├── LICENSE.md            # Dual license
-├── README.md             # Chinese (default)
-└── README.en.md          # This file (English)
+├── SKILL.md                    # Core rules — reading this is enough for the AI
+├── references/                 # On-demand references for the AI; you don't need to touch these
+│   ├── redlines.md             # The eight safety red lines (expanded)
+│   ├── legacy-audit.md         # Full check-up for existing projects
+│   ├── new-project.md          # New-project workflow in three phases + deployment
+│   ├── scenarios.md            # Guidance for five project types
+│   ├── ai-disputes.md          # What to do when two AIs disagree
+│   └── checklist.md            # 19-item delivery checklist
+├── install.sh                  # One-line install script (Claude Code)
+├── .claude-plugin/             # Plugin marketplace config
+├── CHANGELOG.md                # Version history
+├── LICENSE.md                  # Dual license
+├── README.md                   # Chinese (default)
+└── README.en.md                # This file (English)
 ```
 
 ---
 
 ## Want to customize?
 
-Edit `SKILL.md` and `references/checklist.md`, and add your own red lines, e.g.:
+Edit `SKILL.md` and `references/redlines.md`, and add your own red lines, e.g.:
 
 - Never touch my `main` branch
 - Ask me before any action that costs money
