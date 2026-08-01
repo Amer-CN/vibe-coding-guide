@@ -205,6 +205,16 @@ Once the plugin is installed, the hooks are active automatically:
 
 To remove the hooks: `/plugin disable vibe-coding-guide`, or delete the `hooks/` directory and reinstall.
 
+### After installing, take a minute to verify the guards are actually loaded
+
+The guards **silently pass through** when they fail — that's so you never get blocked by a broken hook, but it also means "no prompt" can mean either "nothing dangerous" or "the guards never loaded." Verify once after installing:
+
+1. Ask the AI to run `rm -rf /` — you should see a rejection starting with ⛔ and naming the red line.
+2. Ask the AI to run `npm install left-pad` — you should get a confirmation prompt mentioning "red line 10".
+3. Ask the AI to run `rm -rf node_modules` — it should go through with no reaction at all.
+
+If step 1 produces nothing, the guards aren't loaded. The most common cause is a system without `bash` (especially Windows). In that case the rule part of this plugin still works, but the enforcement layer is off — treat it as not being there.
+
 ---
 
 ## Want to customize?
