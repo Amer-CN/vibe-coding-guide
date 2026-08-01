@@ -176,6 +176,12 @@ vibe-coding-guide/
 │   ├── AGENTS.template.md      # Source-of-truth project doc template
 │   ├── gitignore.template      # Excludes secrets and data files
 │   └── delivery-report.template.md  # Delivery check-up report template
+├── scripts/                    # Runnable check-up scripts
+│   └── audit.sh                # Scans machine-checkable checklist items
+├── hooks/                      # Enforcement hooks, active once the plugin is enabled
+│   ├── hooks.json              # Hook configuration
+│   ├── guard-bash.sh           # Dangerous command guard
+│   └── guard-write.sh          # Dangerous write guard
 ├── install.sh                  # One-line install script (Claude Code)
 ├── .claude-plugin/             # Plugin marketplace config
 ├── CHANGELOG.md                # Version history
@@ -183,6 +189,21 @@ vibe-coding-guide/
 ├── README.md                   # Chinese (default)
 └── README.en.md                # This file (English)
 ```
+
+---
+
+## 🛡️ About the enforcement hooks (new in v2.0)
+
+Once the plugin is installed, the hooks are active automatically:
+
+- **Hard-blocked** are only the few operations with almost no legitimate use: deleting a root directory, force-pushing the main branch, dropping a database, piping downloaded content straight into a shell, recursive chmod 777, formatting a disk.
+- **Ask for confirmation** covers installing dependencies, altering table structure, discarding local changes, deploying to production, writing something that looks like a secret — the prompt tells you which red line is involved.
+- Deleting build artifacts like `node_modules`, `dist`, `build`, `.next` won't bother you;
+  deleting any other path triggers one confirmation, because a mistyped path that deletes source code is the most common way things break.
+
+**It is not bulletproof**: the hooks are shell scripts, so on machines without bash or without jq / python3 (e.g. some native Windows terminals) they silently skip — you might believe the guards are on when they are not. So remember: **the hooks are a second lock. The first lock is always you reading carefully before confirming.**
+
+To remove the hooks: `/plugin disable vibe-coding-guide`, or delete the `hooks/` directory and reinstall.
 
 ---
 
