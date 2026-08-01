@@ -166,12 +166,16 @@ https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
 vibe-coding-guide/
 ├── SKILL.md                    # 核心规矩，AI 读这份就够
 ├── references/                 # AI 按需查阅，你不用管
-│   ├── redlines.md             # 八条安全红线（展开版）
+│   ├── redlines.md             # 十一条安全红线（展开版）
 │   ├── legacy-audit.md         # 老项目大检查
 │   ├── new-project.md          # 新项目三阶段 + 上线
 │   ├── scenarios.md            # 五类项目适配
 │   ├── ai-disputes.md          # 两个 AI 说法冲突怎么办
-│   └── checklist.md            # 19 条交付检查清单
+│   └── checklist.md            # 25 条交付检查清单
+├── assets/                     # 现成模板，直接抄走改
+│   ├── AGENTS.template.md      # 项目真源文档模板
+│   ├── gitignore.template      # 密钥与数据文件排除
+│   └── delivery-report.template.md  # 交付体检报告
 ├── install.sh                  # 一键安装脚本（Claude Code）
 ├── .claude-plugin/             # 插件市场配置
 ├── CHANGELOG.md                # 版本变更记录
@@ -189,6 +193,8 @@ vibe-coding-guide/
 - 不许动我的 `main` 分支
 - 任何花钱超过 1 块钱的操作都要先问我
 - 每次改完必须写清楚"改了什么"
+
+> 也可以直接拿 `assets/` 里的模板改：真源文档、`.gitignore`、交付报告都有现成骨架。
 
 ---
 

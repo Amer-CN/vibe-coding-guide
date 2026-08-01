@@ -2,6 +2,17 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.2.0] - 2026-08-01
+
+### Added
+- 红线从 8 条扩到 11 条：新增「AI 功能」「依赖供应链」「Agent 操作安全」三组。
+- 自检清单从 19 条扩到 25 条，并标出 ⭐ 最小必查 8 条。
+- `assets/` 模板三件套：`AGENTS.template.md`、`gitignore.template`、`delivery-report.template.md`。
+
+### Changed
+- `SKILL.md` description 同步为 25 条，并覆盖三组新红线的触发场景。
+- `SKILL.md` 参考文件路由表新增 `assets/` 一行。
+
 ## [1.1.0] - 2026-08-01
 
 ### Changed
