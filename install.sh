@@ -24,5 +24,16 @@ else
 fi
 
 echo ""
-echo "✓ 安装完成!位置:${TARGET_DIR}"
-echo "  在 Claude Code 新对话里说一句:\"我要用 vibe-coding-guide 规范来写代码\" 即可。"
+echo "✓ 安装完成！位置：${TARGET_DIR}"
+echo ""
+echo "  这种装法安装的是【规矩本】部分。"
+echo "  在 Claude Code 新对话里说一句：\"我要用 vibe-coding-guide 规范来写代码\" 即可。"
+echo ""
+echo "  ⚠️ 强制护栏（会真的拦下 rm -rf / 之类命令的那层）"
+echo "     不保证以这种方式生效。要用护栏，请改用插件安装："
+echo "       /plugin marketplace add Amer-CN/vibe-coding-guide"
+echo "       /plugin install vibe-coding-guide@vibe-coding-guide"
+echo ""
+echo "  想确认护栏到底有没有加载，在 Claude Code 里输入 /hooks，"
+echo "  看列表里有没有 vibe-coding-guide 的两条 PreToolUse。"
+echo ""
