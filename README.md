@@ -56,45 +56,22 @@ AI 要执行 `rm -rf /` 的时候，它看到的是这个：
 | `npm install <包名>` | 要安装新依赖了。装之前请先确认包名全称、用途、周下载量和最近更新时间（红线 10） |
 
 
-## 🚀 怎么开始用（三选一）
+## 🚀 装上它
 
-挑一个你顺手的就行：
-
-**① 插件市场（推荐，Claude Code）——完整：规矩本 + 护栏**
+Claude Code，两行命令：
 
 ```
 /plugin marketplace add Amer-CN/vibe-coding-guide
 /plugin install vibe-coding-guide@vibe-coding-guide
 ```
 
-**② 一键脚本（Claude Code）——装规矩本。护栏不保证生效，需要护栏请用方式 ①。**
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh | bash
-```
-
-> 🔐 这份指南教你“别人让你跑的命令要看清再点”，那它自己也该守规矩：不放心 `curl | bash` 的话，先执行 `curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh -o install.sh` 看一眼内容，确认后再 `bash install.sh`。脚本只做一件事——把本仓库 clone 到 `~/.claude/skills/`。
-
-**③ 复制给 agent（任何 AI 都行）——装规矩本。护栏不保证生效，需要护栏请用方式 ①。**
-
-复制下面这段，粘贴进你的 AI 对话框（Claude、Cursor、Gemini……都行），发送即可——
-
-```text
-请阅读并严格遵守这份《AI 编程安全规则》：
-https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
-
-从现在起，帮我写代码时，请全程按上面这份规则来。
-```
-
-> 💡 如果你的 AI 不能联网打开链接，就直接打开仓库里的 `SKILL.md`，把内容整段复制、粘贴给它，效果一样。
-
-用①②装好后，在新对话里说“我要用 vibe-coding-guide 规范写代码，我想做一个……”，Claude 会自动按规矩配合你，也可以用 `/vibe-coding-guide` 直接调用。
-
----
+装完在新对话里正常说话就行，不用记命令——
+说“帮我做个 XX”“这段代码能上线吗”它就会自动按规矩来。
+也可以用 `/vibe-coding-guide` 直接点名。
 
 ## 🗣️ 它什么时候会“自动出手”？
 
-用上面 ①② 装好之后，你**不用每次点名调用**它——只要你说的话撞上下面这些场景，AI 就会自动按这套规矩来配合你。下面这些大白话，直接说就行：
+装上它之后，你**不用每次点名调用**它——只要你说的话撞上下面这些场景，AI 就会自动按这套规矩来配合你。下面这些大白话，直接说就行：
 
 **🚀 想从零做点东西**
 
@@ -189,6 +166,36 @@ https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
 但强制拦截那一层是关掉的，请当作没有它来使用。
 
 ---
+
+---
+
+## 其他安装方式
+
+<details>
+<summary>不用 Claude Code，或者不想装插件</summary>
+
+**一键脚本（Claude Code）——装规矩本。护栏不保证生效，需要护栏请用插件方式。**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh | bash
+```
+
+> 🔐 这份指南教你“别人让你跑的命令要看清再点”，那它自己也该守规矩：不放心 `curl | bash` 的话，先执行 `curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh -o install.sh` 看一眼内容，确认后再 `bash install.sh`。脚本只做一件事——把本仓库 clone 到 `~/.claude/skills/`。
+
+**复制给 agent（任何 AI 都行）——装规矩本。护栏不保证生效，需要护栏请用插件方式。**
+
+复制下面这段，粘贴进你的 AI 对话框（Claude、Cursor、Gemini……都行），发送即可——
+
+```text
+请阅读并严格遵守这份《AI 编程安全规则》：
+https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
+
+从现在起，帮我写代码时，请全程按上面这份规则来。
+```
+
+> 💡 如果你的 AI 不能联网打开链接，就直接打开仓库里的 `SKILL.md`，把内容整段复制、粘贴给它，效果一样。
+
+</details>
 
 ## 谁适合用？
 

@@ -60,45 +60,22 @@ These are not blocked, but it will **stop and ask you once**:
 | `npm install <package>` | 要安装新依赖了。装之前请先确认包名全称、用途、周下载量和最近更新时间（红线 10） |
 
 
-## 🚀 How to start (pick one)
+## 🚀 Install it
 
-Pick whichever is easiest for you:
-
-**① Plugin marketplace (recommended, Claude Code) — full: rules + guards**
+Claude Code, two commands:
 
 ```
 /plugin marketplace add Amer-CN/vibe-coding-guide
 /plugin install vibe-coding-guide@vibe-coding-guide
 ```
 
-**② One-line script (Claude Code) — installs the rulebook only. Guards are not guaranteed to work this way; for guards, use ①.**
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh | bash
-```
-
-> 🔐 This guide teaches you to "look before you click when someone tells you to run a command" — so it should follow its own advice. If you're not comfortable with `curl | bash`, first run `curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh -o install.sh` to inspect the script, and only then run `bash install.sh`. The script does exactly one thing: clones this repo into `~/.claude/skills/`.
-
-**③ Paste it to your agent (works with any AI) — installs the rulebook only. Guards are not guaranteed to work this way; for guards, use ①.**
-
-Copy the block below, paste it into your AI chat (Claude, Cursor, Gemini… all work), and send —
-
-```text
-Please read and strictly follow these AI coding safety rules:
-https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
-
-From now on, follow these rules whenever you help me write code.
-```
-
-> 💡 If your AI can't open links, just open `SKILL.md` in this repo, copy the whole content, and paste it to your AI — same effect.
-
-After installing with ① / ②, in a new chat say "I want to write code using the vibe-coding-guide rules, I want to build …", and Claude will follow the rules automatically. You can also invoke it directly with `/vibe-coding-guide`.
-
----
+Once installed, just talk normally in a new chat — no commands to remember.
+Say "help me build an XX" or "is this code safe to ship?" and it follows the
+rules automatically. You can also call it by name with `/vibe-coding-guide`.
 
 ## 🗣️ When does it kick in automatically?
 
-Once installed (via ① or ② above), you **don't have to call it by name** every time — whenever what you say hits one of the situations below, the AI will automatically follow these rules. Just say things like:
+Once installed, you **don't have to call it by name** every time — whenever what you say hits one of the situations below, the AI will automatically follow these rules. Just say things like:
 
 **🚀 Starting something from scratch**
 
@@ -182,6 +159,36 @@ The guards **silently pass through** when they fail — that's so you never get 
 If step 1 produces nothing, the guards aren't loaded. The most common cause is a system without `bash` (especially Windows). In that case the rule part of this plugin still works, but the enforcement layer is off — treat it as not being there.
 
 ---
+
+---
+
+## Other ways to install
+
+<details>
+<summary>Not using Claude Code, or don't want a plugin</summary>
+
+**One-line script (Claude Code) — installs the rulebook only. Guards are not guaranteed to work this way; for guards, use the plugin install.**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh | bash
+```
+
+> 🔐 This guide teaches you to "look before you click when someone tells you to run a command" — so it should follow its own advice. If you're not comfortable with `curl | bash`, first run `curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh -o install.sh` to inspect the script, and only then run `bash install.sh`. The script does exactly one thing: clones this repo into `~/.claude/skills/`.
+
+**Paste it to your agent (works with any AI) — installs the rulebook only. Guards are not guaranteed to work this way; for guards, use the plugin install.**
+
+Copy the block below, paste it into your AI chat (Claude, Cursor, Gemini… all work), and send —
+
+```text
+Please read and strictly follow these AI coding safety rules:
+https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
+
+From now on, follow these rules whenever you help me write code.
+```
+
+> 💡 If your AI can't open links, just open `SKILL.md` in this repo, copy the whole content, and paste it to your AI — same effect.
+
+</details>
 
 ## Who is it for?
 
