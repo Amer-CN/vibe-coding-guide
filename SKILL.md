@@ -1,6 +1,6 @@
 ---
 name: vibe-coding-guide
-description: 面向非技术背景用户（产品经理、创业者、独立开发者）用 AI Agent 从零搭建或改造软件项目时的安全护栏与实施流程。当用户想做网站/小程序/App/桌面工具/后台系统，遇到"一改就崩、换电脑就报错、AI 说修好了其实没好、该信哪个 AI"，担心密码/金额/身份证等敏感数据的存储方式，或准备上线交付需要做体检时使用。提供三阶段工作流、不可妥协的安全红线和 25 条交付检查清单，覆盖 AI 功能、依赖供应链与 Agent 操作安全。
+description: 面向非技术背景用户（产品经理、创业者、独立开发者）用 AI Agent 从零搭建或改造软件项目时的安全护栏与实施流程。当用户想做网站/小程序/App/桌面工具/后台系统，遇到"一改就崩、换电脑就报错、AI 说修好了其实没好、该信哪个 AI"，担心密码/金额/身份证等敏感数据的存储方式，或准备上线交付需要做体检时使用。提供三阶段工作流、不可妥协的安全红线和 25 条交付检查清单，覆盖 AI 功能、依赖供应链与 Agent 操作安全。 Also applies when the user asks in English about safe AI-assisted coding, secrets in code, money and decimal handling, dependency supply chain, or a pre-launch security review.
 license: SEE LICENSE.md
 ---
 
