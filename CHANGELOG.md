@@ -5,7 +5,7 @@
 ## [1.1.0] - 2026-08-01
 
 ### Changed
-- **精简 `SKILL.md` 的 description**：从 600+ 字的关键词堆砌压缩到约 150 字，长尾触发说法统一由 README 承载，减少常驻上下文占用。
+- **精简 `SKILL.md` 的 description**：从 600+ 字的关键词堆砌压缩到约 190 字，长尾触发说法统一由 README 承载，减少常驻上下文占用。
 - **真源文档统一为 `AGENTS.md`**：不再与 `CLAUDE.md` 并列；`CLAUDE.md` 退化为一行引用。
 - **拆分 `references/handbook.md`**：原 33KB 单文件拆为 `redlines.md`、`legacy-audit.md`、`new-project.md`、`scenarios.md`、`ai-disputes.md`，实现按需加载。
 - **消除重复**：“四铁律 + 八红线”原先在三处各写一遍，现以 `SKILL.md`（短表）+ `redlines.md`（展开）为唯一来源。
