@@ -51,10 +51,10 @@ curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/inst
 复制下面这段，粘贴进你的 AI 对话框（Claude、Cursor、Gemini……都行），发送即可——
 
 ```text
-请阅读并严格遵守这份《AI 编程安全规则》:
+请阅读并严格遵守这份《AI 编程安全规则》：
 https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
 
-从现在起,帮我写代码时,请全程按上面这份规则来。
+从现在起，帮我写代码时，请全程按上面这份规则来。
 ```
 
 > 💡 如果你的 AI 不能联网打开链接，就直接打开仓库里的 `SKILL.md`，把内容整段复制、粘贴给它，效果一样。
@@ -121,7 +121,7 @@ https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
    不可逆操作直接执行不了；装依赖、改表结构、部署上线会弹确认并告诉你违反了
    第几条红线。**其他安装方式和其他 AI 只有规矩，没有这层强制拦截。**
 4. **一行命令做体检** — `bash scripts/audit.sh`，把 25 条交付清单里机器能查的
-   部分跑一遍，输出 ✅／❌ 和精确到“文件：行号”。它还会主动列出自己查不了的项。
+   部分跑一遍，输出 ✅／❌ 和精确到 `文件:行号`。它还会主动列出自己查不了的项。
 5. **说人话，不打哑谜** — AI 的解释要让你能听懂，而不是甩一堆代码和报错了事。
 6. **现成模板直接抄** — 项目真源文档、`.gitignore`、交付体检报告，三份骨架拿走就用。
 
@@ -135,8 +135,6 @@ https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
 | 崩了只能从头再来，不知能否恢复 | 改坏能回退，心里有底 |
 | 危险、花钱的操作容易被忽略 | 红线清单会提醒；装了插件的话，最危险的那几类直接执行不了 |
 | 每次提交都像拆炸弹 | 你能放心让 AI 真正去干活 |
-
----
 
 ---
 
@@ -171,8 +169,6 @@ https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
 第 1 步没有任何反应，说明护栏没有加载。常见原因是系统里没有 `bash`
 （Windows 尤其常见）。这种情况下这个插件的规则部分仍然有效，
 但强制拦截那一层是关掉的，请当作没有它来使用。
-
----
 
 ---
 
@@ -239,8 +235,6 @@ vibe-coding-guide/
 ├── README.md                   # 本文件（中文）
 └── README.en.md                # 英文版
 ```
-
-
 
 ---
 

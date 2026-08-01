@@ -223,8 +223,6 @@ vibe-coding-guide/
 └── README.en.md                # This file (English)
 ```
 
-
-
 ---
 
 ## Want to customize?
