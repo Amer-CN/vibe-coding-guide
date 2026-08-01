@@ -8,6 +8,7 @@
   <img src="https://img.shields.io/badge/%E2%9A%A1%20install-copy%20%26%20paste-1f6feb" alt="copy and paste install">
   <img src="https://img.shields.io/badge/%F0%9F%93%84%20license-Dual-orange" alt="dual license">
   <img src="https://img.shields.io/badge/docs-EN%20%2B%20%E4%B8%AD%E6%96%87-9cf" alt="EN plus Chinese">
+  <img src="https://img.shields.io/badge/version-v2.1.0-blue" alt="version">
 </p>
 
 <p align="center"><a href="README.md">简体中文</a> | <b>English</b></p>
