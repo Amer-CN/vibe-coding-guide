@@ -210,6 +210,7 @@ https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
 
 ```
 vibe-coding-guide/
+├── AGENTS.md                   # 项目真源文档（本项目自己也在用）
 ├── SKILL.md                    # 核心规矩，AI 读这份就够
 ├── references/                 # AI 按需查阅，你不用管
 │   ├── redlines.md             # 十一条安全红线（展开版）

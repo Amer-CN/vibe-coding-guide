@@ -197,6 +197,7 @@ If step 1 produces nothing, the guards aren't loaded. The most common cause is a
 
 ```
 vibe-coding-guide/
+├── AGENTS.md                   # Source-of-truth doc (this repo uses it too)
 ├── SKILL.md                    # Core rules — reading this is enough for the AI
 ├── references/                 # On-demand references for the AI; you don't need to touch these
 │   ├── redlines.md             # The eleven safety red lines (expanded)
