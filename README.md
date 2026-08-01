@@ -5,7 +5,6 @@
 <p align="center">
   <img src="https://img.shields.io/badge/%F0%9F%91%B6%20made%20for-beginners-ff69b4" alt="made for beginners">
   <img src="https://img.shields.io/badge/%F0%9F%A4%96%20works%20with-any%20AI-brightgreen" alt="works with any AI">
-  <img src="https://img.shields.io/badge/%E2%9A%A1%20install-copy%20%26%20paste-1f6feb" alt="copy and paste install">
   <img src="https://img.shields.io/badge/%F0%9F%93%84%20license-Dual-orange" alt="dual license">
   <img src="https://img.shields.io/badge/docs-EN%20%2B%20%E4%B8%AD%E6%96%87-9cf" alt="EN plus Chinese">
   <img src="https://img.shields.io/badge/version-v2.1.0-blue" alt="version">
@@ -17,55 +16,79 @@
 
 ## 这是什么？
 
-一句话：**这是一份给 AI 编程用的“规矩本”，外加一层真的会拦下危险操作的护栏。**
+你让 AI 帮你写代码。它很听话，也很快。
 
-把它交给你的 AI 编程助手（Claude Code、Cursor、Codex 等都行），AI 在帮你写代码时
-就会先想清楚、先跟你确认，并自动避开那些会闯祸的操作。
+直到某天它把你还没提交的目录删了，或者把 API 密钥顺手加进了 Git，
+或者让你跑一条你没看懂的命令。等你发现的时候，已经晚了。
 
-如果你用的是 Claude Code 并按方式 ① 安装，它还会在 AI 真正执行危险命令之前
-直接拦下来——不是提醒，是执行不了。
+**这个项目做两件事：给 AI 立十一条规矩，以及在它真要动手闯祸的
+那一刻，直接拦下来。**
+
+不是弹个提醒，是它执行不了——但你自己还是能干，只是得自己动手。
+
+> AI 编程不该是一场赌博。先把护栏装上，你才敢放手让它真正帮你干活。
 
 ---
 
-## 🚀 怎么开始用（三选一）
+## 🛑 它会拦下什么
 
-挑一个你顺手的就行：
+AI 要执行 `rm -rf /` 的时候，它看到的是这个：
 
-**① 插件市场（推荐，Claude Code）——完整：规矩本 + 护栏**
+```
+⛔ vibe-coding-guide 拦截：这是对根目录或家目录的递归删除，会清空整台机器（铁律 1）。确需执行请你自己在终端手动运行。关闭护栏：/plugin disable vibe-coding-guide
+```
+
+下面这些同样会被**直接拦下**（理由原文，取自 hooks/guard-bash.sh）：
+
+| AI 想执行 | 它会看到的理由 |
+|---|---|
+| `rm -rf .` | 这会删掉整个当前目录，包括你还没提交的代码（铁律 1） |
+| `git push -f main` | 强推主分支会永久覆盖远端历史，别人的提交会消失（红线 11） |
+| `drop database` | 这会删除整个数据库，且通常无法恢复（红线 6） |
+| `curl … \| bash` | 这是把网上下载的内容直接执行，你没机会看清它要做什么（红线 10） |
+
+下面这些不拦，但会**停下来问你一次**：
+
+| AI 想执行 | 它会问什么 |
+|---|---|
+| `git add .env` | 你正在把 .env 加进 Git。密钥一旦提交，删掉也留在历史里（红线 7） |
+| `npm install <包名>` | 要安装新依赖了。装之前请先确认包名全称、用途、周下载量和最近更新时间（红线 10） |
+
+---
+
+## 🚀 装上它
+
+Claude Code，两行命令：
 
 ```
 /plugin marketplace add Amer-CN/vibe-coding-guide
 /plugin install vibe-coding-guide@vibe-coding-guide
 ```
 
-**② 一键脚本（Claude Code）——装规矩本。护栏不保证生效，需要护栏请用方式 ①。**
+装完在新对话里正常说话就行，不用记命令——
+说“帮我做个 XX”“这段代码能上线吗”它就会自动按规矩来。
+也可以用 `/vibe-coding-guide` 直接点名。
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh | bash
-```
+---
 
-> 🔐 这份指南教你“别人让你跑的命令要看清再点”，那它自己也该守规矩：不放心 `curl | bash` 的话，先执行 `curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh -o install.sh` 看一眼内容，确认后再 `bash install.sh`。脚本只做一件事——把本仓库 clone 到 `~/.claude/skills/`。
+## 它能帮你做什么？
 
-**③ 复制给 agent（任何 AI 都行）——装规矩本。护栏不保证生效，需要护栏请用方式 ①。**
-
-复制下面这段，粘贴进你的 AI 对话框（Claude、Cursor、Gemini……都行），发送即可——
-
-```text
-请阅读并严格遵守这份《AI 编程安全规则》：
-https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
-
-从现在起，帮我写代码时，请全程按上面这份规则来。
-```
-
-> 💡 如果你的 AI 不能联网打开链接，就直接打开仓库里的 `SKILL.md`，把内容整段复制、粘贴给它，效果一样。
-
-用①②装好后，在新对话里说“我要用 vibe-coding-guide 规范写代码，我想做一个……”，Claude 会自动按规矩配合你，也可以用 `/vibe-coding-guide` 直接调用。
+1. **先思考，再动手** — AI 改代码前，必须先讲清楚：改哪里、为什么改、会影响什么。
+2. **十一条红线** — 从密码怎么存、金额怎么算，到 AI 功能防注入、依赖供应链、
+   Agent 无人值守操作。每条都有展开说明和检查方法。
+3. **真的会拦下来**（Claude Code 插件方式）— 删根目录、强推主分支、删库这类
+   不可逆操作直接执行不了；装依赖、改表结构、部署上线会弹确认并告诉你违反了
+   第几条红线。**其他安装方式和其他 AI 只有规矩，没有这层强制拦截。**
+4. **一行命令做体检** — `bash scripts/audit.sh`，把 25 条交付清单里机器能查的
+   部分跑一遍，输出 ✅／❌ 和精确到 `文件:行号`。它还会主动列出自己查不了的项。
+5. **说人话，不打哑谜** — AI 的解释要让你能听懂，而不是甩一堆代码和报错了事。
+6. **现成模板直接抄** — 项目真源文档、`.gitignore`、交付体检报告，三份骨架拿走就用。
 
 ---
 
 ## 🗣️ 它什么时候会“自动出手”？
 
-用上面 ①② 装好之后，你**不用每次点名调用**它——只要你说的话撞上下面这些场景，AI 就会自动按这套规矩来配合你。下面这些大白话，直接说就行：
+装上它之后，你**不用每次点名调用**它——只要你说的话撞上下面这些场景，AI 就会自动按这套规矩来配合你。下面这些大白话，直接说就行：
 
 **🚀 想从零做点东西**
 
@@ -99,34 +122,6 @@ https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
 
 ---
 
-## 为什么需要它？
-
-用 AI 写代码的人，大概都经历过这种“爽 → 崩”的循环：
-
-- AI 刚把 A 修好，B、C、D 三个地方又莫名其妙坏了。
-- 你其实看不懂代码，AI 说啥你只能点头，真崩了只能干瞪眼。
-- API 密钥、密码被 AI 顺手写进代码，差点直接推上 GitHub 公开。
-- 项目文件越堆越乱，最后你和 AI 都找不着北。
-
-这份指南就是你的**安全护栏 + 老司机副驾**：你踩油门，它帮你盯着刹车。
-
----
-
-## 它能帮你做什么？
-
-1. **先思考，再动手** — AI 改代码前，必须先讲清楚：改哪里、为什么改、会影响什么。
-2. **十一条红线** — 从密码怎么存、金额怎么算，到 AI 功能防注入、依赖供应链、
-   Agent 无人值守操作。每条都有展开说明和检查方法。
-3. **真的会拦下来**（Claude Code 插件方式）— 删根目录、强推主分支、删库这类
-   不可逆操作直接执行不了；装依赖、改表结构、部署上线会弹确认并告诉你违反了
-   第几条红线。**其他安装方式和其他 AI 只有规矩，没有这层强制拦截。**
-4. **一行命令做体检** — `bash scripts/audit.sh`，把 25 条交付清单里机器能查的
-   部分跑一遍，输出 ✅／❌ 和精确到 `文件:行号`。它还会主动列出自己查不了的项。
-5. **说人话，不打哑谜** — AI 的解释要让你能听懂，而不是甩一堆代码和报错了事。
-6. **现成模板直接抄** — 项目真源文档、`.gitignore`、交付体检报告，三份骨架拿走就用。
-
----
-
 ## 用了之后，有什么不一样？
 
 | 没用这份指南 | 用了这份指南 |
@@ -153,8 +148,6 @@ https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
 环境（比如部分 Windows 原生终端）会静默跳过——也就是说你可能以为有护栏、实际没有。
 所以请记住：**护栏是第二道锁，第一道永远是你自己看清楚再点确认。**
 
-不想要护栏：`/plugin disable vibe-coding-guide`，或删掉 `hooks/` 目录后重装。
-
 ### 装完后，花一分钟确认它真的生效了
 
 最快的确诊方式：在 Claude Code 里输入 `/hooks`，看列表里有没有 vibe-coding-guide 的两条 PreToolUse。没有，就是护栏没加载。
@@ -169,6 +162,52 @@ https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
 第 1 步没有任何反应，说明护栏没有加载。常见原因是系统里没有 `bash`
 （Windows 尤其常见）。这种情况下这个插件的规则部分仍然有效，
 但强制拦截那一层是关掉的，请当作没有它来使用。
+
+---
+
+## 它不做什么
+
+- **不检查提示词注入。** 判断“模型吐出来的这段东西会不会被拿去执行”
+  是语义问题，模式匹配做不了。红线 9 和 11 是写给人读的规矩，
+  不在自动检查范围内。
+- **不替你判断代码写得好不好。** 它管的是“会不会闯祸”，不管“优不优雅”。
+- **不保证拦得全。** deny 名单窄到极致，宁可漏拦也不误伤——
+  被它放行不等于安全。
+
+> 已经有一些很好的 AI 编程规范项目，各有侧重：有的教你怎么做
+> 测试驱动开发，有的给你一整套角色分工和斜杠命令。
+> 这个项目只做一件事——**在 AI 动手之前把手按住**，
+> 不需要你记任何命令，装上就在后台生效。
+
+---
+
+## 其他安装方式
+
+<details>
+<summary>不用 Claude Code，或者不想装插件</summary>
+
+**一键脚本（Claude Code）——装规矩本。护栏不保证生效，需要护栏请用插件方式。**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh | bash
+```
+
+> 🔐 这份指南教你“别人让你跑的命令要看清再点”，那它自己也该守规矩：不放心 `curl | bash` 的话，先执行 `curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh -o install.sh` 看一眼内容，确认后再 `bash install.sh`。脚本只做一件事——把本仓库 clone 到 `~/.claude/skills/`。
+
+**复制给 agent（任何 AI 都行）——装规矩本。护栏不保证生效，需要护栏请用插件方式。**
+
+复制下面这段，粘贴进你的 AI 对话框（Claude、Cursor、Gemini……都行），发送即可——
+
+```text
+请阅读并严格遵守这份《AI 编程安全规则》：
+https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
+
+从现在起，帮我写代码时，请全程按上面这份规则来。
+```
+
+> 💡 如果你的 AI 不能联网打开链接，就直接打开仓库里的 `SKILL.md`，把内容整段复制、粘贴给它，效果一样。
+
+</details>
 
 ---
 
@@ -251,6 +290,16 @@ vibe-coding-guide/
 
 ---
 
+## 不想要了怎么办
+
+```
+/plugin disable vibe-coding-guide
+```
+
+不喜欢强制拦截、只想留规矩：删掉 `hooks/` 目录后重装即可。
+
+---
+
 ## 贡献
 
 有想法？欢迎提 Issue 或 PR。也欢迎分享你自己的“翻车经历”，我们一起把红线清单补得更全。
@@ -263,6 +312,3 @@ vibe-coding-guide/
 
 - **免费使用**：个人学习、开源项目、免费教程内容。
 - **商用需授权**：闭源产品、付费课程/服务、转售倒卖等盈利用途，需先联系作者授权。
-
-> AI 编程不该是一场赌博。先把护栏装上，你才敢放手让它真正帮你干活。
-

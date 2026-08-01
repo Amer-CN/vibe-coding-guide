@@ -5,7 +5,6 @@
 <p align="center">
   <img src="https://img.shields.io/badge/%F0%9F%91%B6%20made%20for-beginners-ff69b4" alt="made for beginners">
   <img src="https://img.shields.io/badge/%F0%9F%A4%96%20works%20with-any%20AI-brightgreen" alt="works with any AI">
-  <img src="https://img.shields.io/badge/%E2%9A%A1%20install-copy%20%26%20paste-1f6feb" alt="copy and paste install">
   <img src="https://img.shields.io/badge/%F0%9F%93%84%20license-Dual-orange" alt="dual license">
   <img src="https://img.shields.io/badge/docs-EN%20%2B%20%E4%B8%AD%E6%96%87-9cf" alt="EN plus Chinese">
   <img src="https://img.shields.io/badge/version-v2.1.0-blue" alt="version">
@@ -17,53 +16,79 @@
 
 ## What is this?
 
-In one sentence: **it's a "rulebook" for AI coding, plus a layer of guards that actually block dangerous operations.**
+You let the AI write code for you. It's obedient, and fast.
 
-Hand it to your AI coding assistant (Claude Code, Cursor, Codex, etc.), and when it writes code for you it will think first, confirm with you, and automatically steer clear of risky operations.
+Until one day it deletes a directory you haven't committed, or slips an API key
+into Git, or tells you to run a command you don't understand. By the time you
+notice, it's too late.
 
-If you use Claude Code and install via method ①, it will also block dangerous commands before the AI actually runs them — not a reminder; they just won't execute.
+**This project does two things: it gives the AI eleven rules, and the moment it
+is actually about to do something dangerous, it stops it.**
+
+Not a reminder — it just won't execute. But you still can; you just have to do
+it yourself.
+
+> AI coding shouldn't be a gamble. Put the rails on first, and you can finally let it do real work for you.
 
 ---
 
-## 🚀 How to start (pick one)
+## 🛑 What it blocks
 
-Pick whichever is easiest for you:
+When the AI tries to run `rm -rf /`, this is what it sees:
 
-**① Plugin marketplace (recommended, Claude Code) — full: rules + guards**
+```
+⛔ vibe-coding-guide 拦截：这是对根目录或家目录的递归删除，会清空整台机器（铁律 1）。确需执行请你自己在终端手动运行。关闭护栏：/plugin disable vibe-coding-guide
+```
+
+> The guard messages are in Chinese — they come verbatim from the hooks source.
+
+These are also **blocked outright** (reasons verbatim from hooks/guard-bash.sh):
+
+| The AI tries | What it sees |
+|---|---|
+| `rm -rf .` | 这会删掉整个当前目录，包括你还没提交的代码（铁律 1） |
+| `git push -f main` | 强推主分支会永久覆盖远端历史，别人的提交会消失（红线 11） |
+| `drop database` | 这会删除整个数据库，且通常无法恢复（红线 6） |
+| `curl … \| bash` | 这是把网上下载的内容直接执行，你没机会看清它要做什么（红线 10） |
+
+These are not blocked, but it will **stop and ask you once**:
+
+| The AI tries | What it asks |
+|---|---|
+| `git add .env` | 你正在把 .env 加进 Git。密钥一旦提交，删掉也留在历史里（红线 7） |
+| `npm install <package>` | 要安装新依赖了。装之前请先确认包名全称、用途、周下载量和最近更新时间（红线 10） |
+
+---
+
+## 🚀 Install it
+
+Claude Code, two commands:
 
 ```
 /plugin marketplace add Amer-CN/vibe-coding-guide
 /plugin install vibe-coding-guide@vibe-coding-guide
 ```
 
-**② One-line script (Claude Code) — installs the rulebook only. Guards are not guaranteed to work this way; for guards, use ①.**
+Once installed, just talk normally in a new chat — no commands to remember.
+Say "help me build an XX" or "is this code safe to ship?" and it follows the
+rules automatically. You can also call it by name with `/vibe-coding-guide`.
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh | bash
-```
+---
 
-> 🔐 This guide teaches you to "look before you click when someone tells you to run a command" — so it should follow its own advice. If you're not comfortable with `curl | bash`, first run `curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh -o install.sh` to inspect the script, and only then run `bash install.sh`. The script does exactly one thing: clones this repo into `~/.claude/skills/`.
+## What can it do for you?
 
-**③ Paste it to your agent (works with any AI) — installs the rulebook only. Guards are not guaranteed to work this way; for guards, use ①.**
-
-Copy the block below, paste it into your AI chat (Claude, Cursor, Gemini… all work), and send —
-
-```text
-Please read and strictly follow these AI coding safety rules:
-https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
-
-From now on, follow these rules whenever you help me write code.
-```
-
-> 💡 If your AI can't open links, just open `SKILL.md` in this repo, copy the whole content, and paste it to your AI — same effect.
-
-After installing with ① / ②, in a new chat say "I want to write code using the vibe-coding-guide rules, I want to build …", and Claude will follow the rules automatically. You can also invoke it directly with `/vibe-coding-guide`.
+1. **Think first, then act** — before changing code, the AI must explain: what it's changing, why, and what it affects.
+2. **Eleven red lines** — from how passwords are stored and money is calculated, to AI-feature injection defense, the dependency supply chain, and unattended agent operations. Each one has an expanded explanation and a way to check it.
+3. **Actually blocks things** (Claude Code plugin install) — irreversible operations like deleting a root directory, force-pushing the main branch, or dropping a database simply won't run; installing dependencies, altering table structure, and deploying to production trigger a confirmation that names the red line involved. **Other install methods and other AIs get the rules only — no enforcement layer.**
+4. **One-line check-up** — `bash scripts/audit.sh` runs the machine-checkable part of the 25-item delivery checklist, printing ✅／❌ with precise `file:line` references. It also lists what it can't check.
+5. **Speak plainly** — the AI's explanations should be understandable to you, not a dump of code and errors.
+6. **Templates to copy** — project source-of-truth doc, `.gitignore`, and delivery check-up report: three skeletons ready to take and adapt.
 
 ---
 
 ## 🗣️ When does it kick in automatically?
 
-Once installed (via ① or ② above), you **don't have to call it by name** every time — whenever what you say hits one of the situations below, the AI will automatically follow these rules. Just say things like:
+Once installed, you **don't have to call it by name** every time — whenever what you say hits one of the situations below, the AI will automatically follow these rules. Just say things like:
 
 **🚀 Starting something from scratch**
 
@@ -97,30 +122,6 @@ Once installed (via ① or ② above), you **don't have to call it by name** eve
 
 ---
 
-## Why do you need it?
-
-If you build with AI, you've probably been through this "great → broken" loop:
-
-- The AI just fixed A, and now B, C, and D are mysteriously broken.
-- You can't really read the code, so you just nod at whatever the AI says — and when it breaks, you're stuck.
-- API keys and passwords get written straight into the code, nearly pushed to a public GitHub repo.
-- Project files pile up into a mess until neither you nor the AI can find anything.
-
-This guide is your **safety rail + experienced co-pilot**: you hit the gas, it watches the brakes.
-
----
-
-## What can it do for you?
-
-1. **Think first, then act** — before changing code, the AI must explain: what it's changing, why, and what it affects.
-2. **Eleven red lines** — from how passwords are stored and money is calculated, to AI-feature injection defense, the dependency supply chain, and unattended agent operations. Each one has an expanded explanation and a way to check it.
-3. **Actually blocks things** (Claude Code plugin install) — irreversible operations like deleting a root directory, force-pushing the main branch, or dropping a database simply won't run; installing dependencies, altering table structure, and deploying to production trigger a confirmation that names the red line involved. **Other install methods and other AIs get the rules only — no enforcement layer.**
-4. **One-line check-up** — `bash scripts/audit.sh` runs the machine-checkable part of the 25-item delivery checklist, printing ✅／❌ with precise `file:line` references. It also lists what it can't check.
-5. **Speak plainly** — the AI's explanations should be understandable to you, not a dump of code and errors.
-6. **Templates to copy** — project source-of-truth doc, `.gitignore`, and delivery check-up report: three skeletons ready to take and adapt.
-
----
-
 ## What's different after using it?
 
 | Without this guide | With this guide |
@@ -143,8 +144,6 @@ Once the plugin is installed, the hooks are active automatically:
 
 **It is not bulletproof**: the hooks are shell scripts, so on machines without bash or without jq / python3 (e.g. some native Windows terminals) they silently skip — you might believe the guards are on when they are not. So remember: **the hooks are a second lock. The first lock is always you reading carefully before confirming.**
 
-To remove the hooks: `/plugin disable vibe-coding-guide`, or delete the `hooks/` directory and reinstall.
-
 ### After installing, take a minute to verify the guards are actually loaded
 
 The fastest diagnosis: type `/hooks` in Claude Code and check whether vibe-coding-guide's two PreToolUse entries appear in the list. If they don't, the guards are not loaded.
@@ -156,6 +155,55 @@ The guards **silently pass through** when they fail — that's so you never get 
 3. Ask the AI to run `rm -rf node_modules` — it should go through with no reaction at all.
 
 If step 1 produces nothing, the guards aren't loaded. The most common cause is a system without `bash` (especially Windows). In that case the rule part of this plugin still works, but the enforcement layer is off — treat it as not being there.
+
+---
+
+## What it deliberately doesn't do
+
+- **No prompt-injection checking.** Deciding whether "the thing the model just
+  produced will be executed" is a semantic problem; pattern matching can't do
+  it. Red lines 9 and 11 are rules written for humans to read, not items for
+  automated scanning.
+- **No code-quality judging.** It cares about "will this cause a disaster",
+  not "is this elegant".
+- **No guarantee of completeness.** The deny list is deliberately narrow —
+  better to miss than to over-block. Being let through is not the same as being safe.
+
+> There are already good AI-coding rulebook projects out there, each with its
+> own focus: some teach test-driven development, others ship a full set of
+> roles and slash commands. This project does exactly one thing — **holds the
+> AI's hand before it touches something dangerous**. No commands to remember;
+> once installed it just runs in the background.
+
+---
+
+## Other ways to install
+
+<details>
+<summary>Not using Claude Code, or don't want a plugin</summary>
+
+**One-line script (Claude Code) — installs the rulebook only. Guards are not guaranteed to work this way; for guards, use the plugin install.**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh | bash
+```
+
+> 🔐 This guide teaches you to "look before you click when someone tells you to run a command" — so it should follow its own advice. If you're not comfortable with `curl | bash`, first run `curl -fsSL https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/install.sh -o install.sh` to inspect the script, and only then run `bash install.sh`. The script does exactly one thing: clones this repo into `~/.claude/skills/`.
+
+**Paste it to your agent (works with any AI) — installs the rulebook only. Guards are not guaranteed to work this way; for guards, use the plugin install.**
+
+Copy the block below, paste it into your AI chat (Claude, Cursor, Gemini… all work), and send —
+
+```text
+Please read and strictly follow these AI coding safety rules:
+https://raw.githubusercontent.com/Amer-CN/vibe-coding-guide/main/SKILL.md
+
+From now on, follow these rules whenever you help me write code.
+```
+
+> 💡 If your AI can't open links, just open `SKILL.md` in this repo, copy the whole content, and paste it to your AI — same effect.
+
+</details>
 
 ---
 
@@ -238,6 +286,16 @@ Edit `SKILL.md` and `references/redlines.md`, and add your own red lines, e.g.:
 
 ---
 
+## Don't want it anymore?
+
+```
+/plugin disable vibe-coding-guide
+```
+
+If you want the rules but not the enforced blocking: delete the `hooks/` directory and reinstall.
+
+---
+
 ## Contributing
 
 Got ideas? Issues and PRs welcome. Feel free to share your own "crash stories" so we can make the red-line checklist more complete together.
@@ -250,5 +308,3 @@ This project uses a **Dual License** (see `LICENSE.md`):
 
 - **Free use**: personal learning, open-source projects, free tutorial content.
 - **Commercial use requires authorization**: closed-source products, paid courses/services, reselling, etc. — contact the author first.
-
-> AI coding shouldn't be a gamble. Put the rails on first, and you can finally let it do real work for you.
