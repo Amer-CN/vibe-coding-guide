@@ -5,7 +5,6 @@
 <p align="center">
   <img src="https://img.shields.io/badge/%F0%9F%91%B6%20made%20for-beginners-ff69b4" alt="made for beginners">
   <img src="https://img.shields.io/badge/%F0%9F%A4%96%20works%20with-any%20AI-brightgreen" alt="works with any AI">
-  <img src="https://img.shields.io/badge/%E2%9A%A1%20install-copy%20%26%20paste-1f6feb" alt="copy and paste install">
   <img src="https://img.shields.io/badge/%F0%9F%93%84%20license-Dual-orange" alt="dual license">
   <img src="https://img.shields.io/badge/docs-EN%20%2B%20%E4%B8%AD%E6%96%87-9cf" alt="EN plus Chinese">
   <img src="https://img.shields.io/badge/version-v2.1.0-blue" alt="version">
@@ -59,6 +58,7 @@ These are not blocked, but it will **stop and ask you once**:
 | `git add .env` | 你正在把 .env 加进 Git。密钥一旦提交，删掉也留在历史里（红线 7） |
 | `npm install <package>` | 要安装新依赖了。装之前请先确认包名全称、用途、周下载量和最近更新时间（红线 10） |
 
+---
 
 ## 🚀 Install it
 
@@ -72,6 +72,19 @@ Claude Code, two commands:
 Once installed, just talk normally in a new chat — no commands to remember.
 Say "help me build an XX" or "is this code safe to ship?" and it follows the
 rules automatically. You can also call it by name with `/vibe-coding-guide`.
+
+---
+
+## What can it do for you?
+
+1. **Think first, then act** — before changing code, the AI must explain: what it's changing, why, and what it affects.
+2. **Eleven red lines** — from how passwords are stored and money is calculated, to AI-feature injection defense, the dependency supply chain, and unattended agent operations. Each one has an expanded explanation and a way to check it.
+3. **Actually blocks things** (Claude Code plugin install) — irreversible operations like deleting a root directory, force-pushing the main branch, or dropping a database simply won't run; installing dependencies, altering table structure, and deploying to production trigger a confirmation that names the red line involved. **Other install methods and other AIs get the rules only — no enforcement layer.**
+4. **One-line check-up** — `bash scripts/audit.sh` runs the machine-checkable part of the 25-item delivery checklist, printing ✅／❌ with precise `file:line` references. It also lists what it can't check.
+5. **Speak plainly** — the AI's explanations should be understandable to you, not a dump of code and errors.
+6. **Templates to copy** — project source-of-truth doc, `.gitignore`, and delivery check-up report: three skeletons ready to take and adapt.
+
+---
 
 ## 🗣️ When does it kick in automatically?
 
@@ -109,19 +122,6 @@ Once installed, you **don't have to call it by name** every time — whenever wh
 
 ---
 
-
-
-## What can it do for you?
-
-1. **Think first, then act** — before changing code, the AI must explain: what it's changing, why, and what it affects.
-2. **Eleven red lines** — from how passwords are stored and money is calculated, to AI-feature injection defense, the dependency supply chain, and unattended agent operations. Each one has an expanded explanation and a way to check it.
-3. **Actually blocks things** (Claude Code plugin install) — irreversible operations like deleting a root directory, force-pushing the main branch, or dropping a database simply won't run; installing dependencies, altering table structure, and deploying to production trigger a confirmation that names the red line involved. **Other install methods and other AIs get the rules only — no enforcement layer.**
-4. **One-line check-up** — `bash scripts/audit.sh` runs the machine-checkable part of the 25-item delivery checklist, printing ✅／❌ with precise `file:line` references. It also lists what it can't check.
-5. **Speak plainly** — the AI's explanations should be understandable to you, not a dump of code and errors.
-6. **Templates to copy** — project source-of-truth doc, `.gitignore`, and delivery check-up report: three skeletons ready to take and adapt.
-
----
-
 ## What's different after using it?
 
 | Without this guide | With this guide |
@@ -144,8 +144,6 @@ Once the plugin is installed, the hooks are active automatically:
 
 **It is not bulletproof**: the hooks are shell scripts, so on machines without bash or without jq / python3 (e.g. some native Windows terminals) they silently skip — you might believe the guards are on when they are not. So remember: **the hooks are a second lock. The first lock is always you reading carefully before confirming.**
 
-To remove the hooks: `/plugin disable vibe-coding-guide`, or delete the `hooks/` directory and reinstall.
-
 ### After installing, take a minute to verify the guards are actually loaded
 
 The fastest diagnosis: type `/hooks` in Claude Code and check whether vibe-coding-guide's two PreToolUse entries appear in the list. If they don't, the guards are not loaded.
@@ -159,6 +157,23 @@ The guards **silently pass through** when they fail — that's so you never get 
 If step 1 produces nothing, the guards aren't loaded. The most common cause is a system without `bash` (especially Windows). In that case the rule part of this plugin still works, but the enforcement layer is off — treat it as not being there.
 
 ---
+
+## What it deliberately doesn't do
+
+- **No prompt-injection checking.** Deciding whether "the thing the model just
+  produced will be executed" is a semantic problem; pattern matching can't do
+  it. Red lines 9 and 11 are rules written for humans to read, not items for
+  automated scanning.
+- **No code-quality judging.** It cares about "will this cause a disaster",
+  not "is this elegant".
+- **No guarantee of completeness.** The deny list is deliberately narrow —
+  better to miss than to over-block. Being let through is not the same as being safe.
+
+> There are already good AI-coding rulebook projects out there, each with its
+> own focus: some teach test-driven development, others ship a full set of
+> roles and slash commands. This project does exactly one thing — **holds the
+> AI's hand before it touches something dangerous**. No commands to remember;
+> once installed it just runs in the background.
 
 ---
 
@@ -189,6 +204,8 @@ From now on, follow these rules whenever you help me write code.
 > 💡 If your AI can't open links, just open `SKILL.md` in this repo, copy the whole content, and paste it to your AI — same effect.
 
 </details>
+
+---
 
 ## Who is it for?
 
@@ -266,6 +283,16 @@ Edit `SKILL.md` and `references/redlines.md`, and add your own red lines, e.g.:
 - Always write a clear "what changed" after each change
 
 > You can also start from the templates in `assets/` — source-of-truth doc, `.gitignore`, and delivery report skeletons are ready to copy.
+
+---
+
+## Don't want it anymore?
+
+```
+/plugin disable vibe-coding-guide
+```
+
+If you want the rules but not the enforced blocking: delete the `hooks/` directory and reinstall.
 
 ---
 
