@@ -166,12 +166,16 @@ This guide is your **safety rail + experienced co-pilot**: you hit the gas, it w
 vibe-coding-guide/
 ├── SKILL.md                    # Core rules — reading this is enough for the AI
 ├── references/                 # On-demand references for the AI; you don't need to touch these
-│   ├── redlines.md             # The eight safety red lines (expanded)
+│   ├── redlines.md             # The eleven safety red lines (expanded)
 │   ├── legacy-audit.md         # Full check-up for existing projects
 │   ├── new-project.md          # New-project workflow in three phases + deployment
 │   ├── scenarios.md            # Guidance for five project types
 │   ├── ai-disputes.md          # What to do when two AIs disagree
-│   └── checklist.md            # 19-item delivery checklist
+│   └── checklist.md            # 25-item delivery checklist
+├── assets/                     # Ready-to-use templates — copy and adapt
+│   ├── AGENTS.template.md      # Source-of-truth project doc template
+│   ├── gitignore.template      # Excludes secrets and data files
+│   └── delivery-report.template.md  # Delivery check-up report template
 ├── install.sh                  # One-line install script (Claude Code)
 ├── .claude-plugin/             # Plugin marketplace config
 ├── CHANGELOG.md                # Version history
@@ -189,6 +193,8 @@ Edit `SKILL.md` and `references/redlines.md`, and add your own red lines, e.g.:
 - Never touch my `main` branch
 - Ask me before any action that costs money
 - Always write a clear "what changed" after each change
+
+> You can also start from the templates in `assets/` — source-of-truth doc, `.gitignore`, and delivery report skeletons are ready to copy.
 
 ---
 
