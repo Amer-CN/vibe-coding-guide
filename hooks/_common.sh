@@ -47,4 +47,4 @@ deny() { emit "deny" "⛔ vibe-coding-guide 拦截：$1。确需执行请你自�
 ask()  { emit "ask"  "⚠️ vibe-coding-guide 提醒：$1。确认要继续吗？$CLOSE_HINT"; }
 
 # 大小写不敏感匹配
-match() { printf '%s' "$SUBJECT" | grep -qiE "$1"; }
+match() { printf '%s' "$SUBJECT" | grep -qiE -- "$1"; }

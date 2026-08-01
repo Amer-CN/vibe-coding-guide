@@ -20,7 +20,7 @@ esac
 SUBJECT="$BODY"
 
 # ── 硬拦：私钥文件内容 ──────────────────
-match -- '-----BEGIN[[:space:]][A-Z ]*PRIVATE KEY-----' \
+match '-----BEGIN[[:space:]][A-Z ]*PRIVATE KEY-----' \
 	&& deny '你正在把一段私钥写进文件。私钥绝不能进代码库（红线 7）'
 
 # ── 弹确认 ──────────────────
