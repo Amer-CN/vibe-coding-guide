@@ -176,6 +176,12 @@ vibe-coding-guide/
 │   ├── AGENTS.template.md      # 项目真源文档模板
 │   ├── gitignore.template      # 密钥与数据文件排除
 │   └── delivery-report.template.md  # 交付体检报告
+├── scripts/                    # 能直接跑的体检脚本
+│   └── audit.sh                # 自动扫描清单里可机检的部分
+├── hooks/                      # 强制护栏（插件启用后自动生效）
+│   ├── hooks.json              # 护栏配置
+│   ├── guard-bash.sh           # 危险命令拦截
+│   └── guard-write.sh          # 危险写入拦截
 ├── install.sh                  # 一键安装脚本（Claude Code）
 ├── .claude-plugin/             # 插件市场配置
 ├── CHANGELOG.md                # 版本变更记录
@@ -183,6 +189,25 @@ vibe-coding-guide/
 ├── README.md                   # 本文件（中文）
 └── README.en.md                # 英文版
 ```
+
+---
+
+## 🛡️ 关于强制护栏（v2.0 新增）
+
+装上插件后，护栏会自动生效：
+
+- **直接拦下**的只有极少数几乎不可能有正当理由的操作：删根目录、强推主分支、
+  删库、把网上下载的内容直接执行、递归 777、格式化磁盘。
+- **弹确认**的是装依赖、改表结构、丢弃本地改动、往线上部署、写入疑似密钥等，
+  提示里会告诉你违反了哪条红线。
+- 删除 `node_modules`、`dist`、`build`、`.next` 这类构建产物不会被打扰；
+  删其他路径会弹一次确认，因为路径打错删掉源码是最常见的翻车方式。
+
+**它不是万无一失的**：护栏靠 shell 脚本运行，在没有 bash 或缺少 jq / python3 的
+环境（比如部分 Windows 原生终端）会静默跳过——也就是说你可能以为有护栏、实际没有。
+所以请记住：**护栏是第二道锁，第一道永远是你自己看清楚再点确认。**
+
+不想要护栏：`/plugin disable vibe-coding-guide`，或删掉 `hooks/` 目录后重装。
 
 ---
 

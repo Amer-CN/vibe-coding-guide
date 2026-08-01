@@ -2,6 +2,21 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [2.0.0] - 2026-08-01
+
+### Added
+- `scripts/audit.sh`：自动体检脚本，覆盖清单中可机检的部分，输出 ✅／❌ 与 `文件:行号`，
+  并明确列出它查不了的条目。
+- `hooks/`：基于 Claude Code PreToolUse 的强制护栏。极少数不可逆操作直接拦下，
+  其余弹确认并标明违反的红线编号；拒绝信息中包含关闭方法。
+- README 新增「关于强制护栏」一节，写明生效范围与失效场景。
+
+### Changed
+- 红线从"只靠 AI 自觉遵守"变为"部分由 hooks 强制"，这是本项目定位上的变化，故升主版本。
+- `banner.png` 压缩，仓库体积大幅下降。
+- `references/new-project.md` 速查页排序表述与清单对齐。
+- `assets/delivery-report.template.md` 条目列改为按显示宽度截断。
+
 ## [1.2.0] - 2026-08-01
 
 ### Added
