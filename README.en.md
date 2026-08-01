@@ -16,9 +16,11 @@
 
 ## What is this?
 
-In one sentence: **it's a "rulebook" for AI coding.** Hand it to your AI coding assistant (Claude Code, Cursor, Codex, etc.), and when it writes code for you it will think first, confirm with you, and automatically steer clear of risky operations.
+In one sentence: **it's a "rulebook" for AI coding, plus a layer of guards that actually block dangerous operations.**
 
-You don't write a single line of code, and you don't change your editor. Once it's set up, the AI follows these rules while working with you.
+Hand it to your AI coding assistant (Claude Code, Cursor, Codex, etc.), and when it writes code for you it will think first, confirm with you, and automatically steer clear of risky operations.
+
+If you use Claude Code and install via method ①, it will also block dangerous commands before the AI actually runs them — not a reminder; they just won't execute.
 
 ---
 
@@ -110,8 +112,11 @@ This guide is your **safety rail + experienced co-pilot**: you hit the gas, it w
 ## What can it do for you?
 
 1. **Think first, then act** — before changing code, the AI must explain: what it's changing, why, and what it affects.
-2. **Auto-block the red lines** — deleting data, spending money, exposing passwords, changing production config… these dangerous operations require your confirmation first.
-3. **Speak plainly** — the AI's explanations should be understandable to you, not a dump of code and errors.
+2. **Eleven red lines** — from how passwords are stored and money is calculated, to AI-feature injection defense, the dependency supply chain, and unattended agent operations. Each one has an expanded explanation and a way to check it.
+3. **Actually blocks things** (Claude Code plugin install) — irreversible operations like deleting a root directory, force-pushing the main branch, or dropping a database simply won't run; installing dependencies, altering table structure, and deploying to production trigger a confirmation that names the red line involved. **Other install methods and other AIs get the rules only — no enforcement layer.**
+4. **One-line check-up** — `bash scripts/audit.sh` runs the machine-checkable part of the 25-item delivery checklist, printing ✅／❌ with precise `file:line` references. It also lists what it can't check.
+5. **Speak plainly** — the AI's explanations should be understandable to you, not a dump of code and errors.
+6. **Templates to copy** — project source-of-truth doc, `.gitignore`, and delivery check-up report: three skeletons ready to take and adapt.
 
 ---
 
@@ -121,8 +126,35 @@ This guide is your **safety rail + experienced co-pilot**: you hit the gas, it w
 |---|---|
 | AI changes whatever it wants, often breaking a lot | Confirms each step, verifies after changes |
 | When it breaks, you start over, unsure if it's recoverable | Changes can be rolled back — peace of mind |
-| Risky, money-spending actions slip through | The red-line checklist blocks and warns |
+| Risky, money-spending actions slip through | The red-line checklist reminds you; with the plugin installed, the most dangerous few simply won't run |
 | Every commit feels like defusing a bomb | You can confidently let AI do real work |
+
+---
+
+## 🛡️ About the enforcement hooks
+
+Once the plugin is installed, the hooks are active automatically:
+
+- **Hard-blocked** are only the few operations with almost no legitimate use: deleting a root directory, force-pushing the main branch, dropping a database, piping downloaded content straight into a shell, recursive chmod 777, formatting a disk.
+- **Ask for confirmation** covers installing dependencies, altering table structure, discarding local changes, deploying to production, writing something that looks like a secret — the prompt tells you which red line is involved.
+- Deleting build artifacts like `node_modules`, `dist`, `build`, `.next` won't bother you;
+  deleting any other path triggers one confirmation, because a mistyped path that deletes source code is the most common way things break.
+
+**It is not bulletproof**: the hooks are shell scripts, so on machines without bash or without jq / python3 (e.g. some native Windows terminals) they silently skip — you might believe the guards are on when they are not. So remember: **the hooks are a second lock. The first lock is always you reading carefully before confirming.**
+
+To remove the hooks: `/plugin disable vibe-coding-guide`, or delete the `hooks/` directory and reinstall.
+
+### After installing, take a minute to verify the guards are actually loaded
+
+The fastest diagnosis: type `/hooks` in Claude Code and check whether vibe-coding-guide's two PreToolUse entries appear in the list. If they don't, the guards are not loaded.
+
+The guards **silently pass through** when they fail — that's so you never get blocked by a broken hook, but it also means "no prompt" can mean either "nothing dangerous" or "the guards never loaded." Verify once after installing:
+
+1. Ask the AI to run `rm -rf /` — you should see a rejection starting with ⛔ and naming the red line.
+2. Ask the AI to run `npm install left-pad` — you should get a confirmation prompt mentioning "red line 10".
+3. Ask the AI to run `rm -rf node_modules` — it should go through with no reaction at all.
+
+If step 1 produces nothing, the guards aren't loaded. The most common cause is a system without `bash` (especially Windows). In that case the rule part of this plugin still works, but the enforcement layer is off — treat it as not being there.
 
 ---
 
@@ -190,32 +222,7 @@ vibe-coding-guide/
 └── README.en.md                # This file (English)
 ```
 
----
 
-## 🛡️ About the enforcement hooks (new in v2.0)
-
-Once the plugin is installed, the hooks are active automatically:
-
-- **Hard-blocked** are only the few operations with almost no legitimate use: deleting a root directory, force-pushing the main branch, dropping a database, piping downloaded content straight into a shell, recursive chmod 777, formatting a disk.
-- **Ask for confirmation** covers installing dependencies, altering table structure, discarding local changes, deploying to production, writing something that looks like a secret — the prompt tells you which red line is involved.
-- Deleting build artifacts like `node_modules`, `dist`, `build`, `.next` won't bother you;
-  deleting any other path triggers one confirmation, because a mistyped path that deletes source code is the most common way things break.
-
-**It is not bulletproof**: the hooks are shell scripts, so on machines without bash or without jq / python3 (e.g. some native Windows terminals) they silently skip — you might believe the guards are on when they are not. So remember: **the hooks are a second lock. The first lock is always you reading carefully before confirming.**
-
-To remove the hooks: `/plugin disable vibe-coding-guide`, or delete the `hooks/` directory and reinstall.
-
-### After installing, take a minute to verify the guards are actually loaded
-
-The fastest diagnosis: type `/hooks` in Claude Code and check whether vibe-coding-guide's two PreToolUse entries appear in the list. If they don't, the guards are not loaded.
-
-The guards **silently pass through** when they fail — that's so you never get blocked by a broken hook, but it also means "no prompt" can mean either "nothing dangerous" or "the guards never loaded." Verify once after installing:
-
-1. Ask the AI to run `rm -rf /` — you should see a rejection starting with ⛔ and naming the red line.
-2. Ask the AI to run `npm install left-pad` — you should get a confirmation prompt mentioning "red line 10".
-3. Ask the AI to run `rm -rf node_modules` — it should go through with no reaction at all.
-
-If step 1 produces nothing, the guards aren't loaded. The most common cause is a system without `bash` (especially Windows). In that case the rule part of this plugin still works, but the enforcement layer is off — treat it as not being there.
 
 ---
 
