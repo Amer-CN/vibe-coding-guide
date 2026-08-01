@@ -98,13 +98,13 @@ silent_catch_multiline() {
 				line = $0
 				sub(/[[:space:]]+$/, "", line)
 				if (pend && NR == pendline + 1) {
-					if (line ~ /^[[:space:]]*(pass|\}|\}\})/) {
+					if (line ~ /^[[:space:]]*(pass|\})$/) {
 						printf "%s:%d:%s\n", F, NR, $0
 					}
 					pend = 0
 				}
 				if (line ~ /except[[:space:]]*[A-Za-z_.]*([[:space:]]+as[[:space:]]+[A-Za-z_]+)?[[:space:]]*:$/ \
-				 || line ~ /catch[[:space:]]*\([^)]*\)?[[:space:]]*\{$/) {
+				 || line ~ /catch[[:space:]]*(\([^)]*\))?[[:space:]]*\{$/) {
 					pend = 1; pendline = NR
 				}
 			}
