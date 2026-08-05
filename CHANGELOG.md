@@ -17,7 +17,7 @@
 - `SKILL.md` 「两条硬规则」改名「Git 与上线纪律」并补上小节前的空行。
 - `scripts/audit.sh` W1 只报真正越界的指标（`AGENTS.md` 或 `AGENTS.md:<行号>`）；W2 补 CLAUDE.md 多余非空行的行号。
 - `assets/decision.template.md` 顶部注释补落点与首次创建 README 的说明。
-- `AGENTS.md` 第三节瘦身为当前生效的祈使句规矩，第九节表格替换为 `docs/decisions/` 索引；删除 3 条第九节重复杂目与 2 条被否决方案描述，论证全部迁入档案。
+- `AGENTS.md` 第三节瘦身为当前生效的祈使句规矩，第九节表格替换为 `docs/decisions/` 索引；删除 3 条第九节重复杂目（一进一出抵扣 3 条）；2 条被否决方案描述原样移入档案（论证资产，不计入抵扣）。
 - `assets/decision.template.md` 顶部注释补「格式范例见本仓库 docs/decisions/」。
 
 ## [2.1.0] - 2026-08-01

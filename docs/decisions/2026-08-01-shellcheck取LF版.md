@@ -11,7 +11,7 @@
 
 ## 裁决
 
-**跑 shellcheck 必须用 `git show HEAD:<file>` 取 LF 版再检查；先 `git ls-files --eol` 看行尾，再统计数字。**
+**四个 .sh 在仓库里是 LF，Windows 工作树是 CRLF。**
 
 ## 被否决的方案
 
