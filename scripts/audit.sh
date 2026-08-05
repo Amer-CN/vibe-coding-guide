@@ -8,6 +8,7 @@ SELF_ABS="$(cd "$(dirname "$0")" 2>/dev/null && pwd)/$(basename "$0")"
 cd "$TARGET" 2>/dev/null || { echo "找不到目录：$TARGET" >&2; exit 2; }
 
 FAIL=0
+WARN=0
 # 只排除脚本自己这一个文件，不排除 scripts/ 或 hooks/ 目录——
 # 用户项目里那两个目录常有真代码要审（插件安装场景 SELF_REL 为空，行为不变）。
 ROOT_ABS="$(pwd)"
@@ -25,6 +26,7 @@ EX="--exclude-dir=.git --exclude-dir=node_modules --exclude-dir=vendor
 ok()   { printf '[✅] %-5s %s\n' "$1" "$2"; }
 no()   { printf '[❌] %-5s %s\n' "$1" "$2"; FAIL=1; }
 na()   { printf '[➖] %-5s %s\n' "$1" "$2"; }
+warn() { printf '[⚠️] %-5s %s\n' "$1" "$2"; WARN=$((WARN+1)); }
 ev()   { printf '%s\n' "$1" | head -n 5 | sed 's/^/           /'; }
 
 scan() {
@@ -139,7 +141,58 @@ if [ "$NEEDED" = "0" ]; then na "C23" "未发现依赖清单，跳过"
 elif [ "$LOCKED" = "1" ]; then ok "C23" "依赖锁定文件已提交进 Git"
 else no "C23" "有依赖清单但锁定文件没提交，换台机器装出来可能不是同一份代码"; fi
 
+# W1/W2 先以 warn 进场跑满一个版本，下一版由一次显式提交转硬拦。
+# W1 规则体积（AGENTS.md ≤200 行 / ≤10KB / 单行 ≤500 字符）
+if [ -f AGENTS.md ]; then
+	LINES="$(awk 'END { print NR }' AGENTS.md)"
+	BYTES="$(wc -c < AGENTS.md | awk '{ print $1 }')"
+	# UTF-8 每字符恰好一个非连续字节，去掉连续字节后长度即字符数，不依赖 locale
+	MAXLINE="$(awk '{ line=$0; sub(/\r$/, "", line); gsub(/[\x80-\xBF]/, "", line); if (length(line) > m) m = length(line) } END { print m+0 }' AGENTS.md)"
+	if [ "$LINES" -gt 200 ] || [ "$BYTES" -gt 10240 ] || [ "$MAXLINE" -gt 500 ]; then
+		warn "W1" "AGENTS.md 规则体积超限（${LINES} 行 / ${BYTES} 字节 / 单行最长 ${MAXLINE} 字符）：膨胀说明有内容放错了位置：能机器查的写成检查项，为什么这么定的写进 docs/decisions/，现状快照删掉改成写『跑哪条命令能看到』"
+	else
+		ok "W1" "AGENTS.md 规则体积在预算内（${LINES} 行 / ${BYTES} 字节 / 单行最长 ${MAXLINE} 字符）"
+	fi
+else
+	na "W1" "项目根没有 AGENTS.md，跳过"; fi
+
+# W2 单一真身（AGENTS.md 与 CLAUDE.md 并存时，CLAUDE.md 去注释后只能有一行指向 AGENTS.md）
+if [ -f AGENTS.md ] && [ -f CLAUDE.md ]; then
+	BODY="$(awk '
+		BEGIN { in_comment = 0 }
+		{
+			line = $0
+			sub(/\r$/, "", line)
+			while (1) {
+				if (in_comment) {
+					end = index(line, "-->")
+					if (end == 0) { line = ""; break }
+					line = substr(line, end + 3)
+					in_comment = 0
+				} else {
+					start = index(line, "<!--")
+					if (start == 0) break
+					before = substr(line, 1, start - 1)
+					rest = substr(line, start + 4)
+					end = index(rest, "-->")
+					if (end == 0) { line = before; in_comment = 1; break }
+					line = before substr(rest, end + 3)
+				}
+			}
+			if (line !~ /^[[:space:]]*$/) print line
+		}
+	' CLAUDE.md)"
+	COUNT="$(printf '%s\n' "$BODY" | grep -c . || true)"
+	if [ "$COUNT" -eq 1 ] && printf '%s' "$BODY" | grep -q 'AGENTS.md'; then
+		ok "W2" "CLAUDE.md 去注释后只有一行指向 AGENTS.md，真身唯一"
+	else
+		warn "W2" "两份规则必然分叉，选一份当真身：CLAUDE.md 去注释后应有且仅有一行指向 AGENTS.md，现在有 ${COUNT} 行非空内容"
+	fi
+else
+	na "W2" "AGENTS.md 与 CLAUDE.md 未并存，跳过"; fi
+
 echo "======================================================"
+echo "⚠️ 提醒 ${WARN} 条：W1/W2 先以 warn 进场，不影响退出码"
 cat <<'EOF'
 
 这个脚本只做了文本匹配，能力有限：

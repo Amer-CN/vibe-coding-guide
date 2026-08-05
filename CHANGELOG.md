@@ -2,6 +2,17 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [2.2.0] - 2026-08-05
+
+### Added
+- `assets/decision.template.md`：五节式决策档案模板，强调「被否决的方案」与「不变量含失效条件」，文件名用 `YYYY-MM-DD-短横线主题.md`，只追加、不修改。
+- `scripts/audit.sh` 新增 W1 规则体积、W2 单一真身两项检查，先以 warn 进场，只提醒、不影响退出码。
+
+### Changed
+- `SKILL.md` 铁律 4 改为「结论进 AGENTS.md、论证与被否决的方案进 docs/decisions/」；工作流补人眼验收（绿灯 → 启动给用户看 → 用户点头 → 提交 Git）。
+- `SKILL.md` 新增两条硬规则：回退先确认已验收版本并保留历史；合并进主分支不等于上线。
+- `SKILL.md` 路由表新增「需要记录一条重要决定 → assets/decision.template.md」。
+
 ## [2.1.0] - 2026-08-01
 
 ### Added
