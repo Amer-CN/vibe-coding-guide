@@ -12,6 +12,9 @@
 - `SKILL.md` 铁律 4 改为「结论进 AGENTS.md、论证与被否决的方案进 docs/decisions/」；工作流补人眼验收（绿灯 → 启动给用户看 → 用户点头 → 提交 Git）。
 - `SKILL.md` 新增两条硬规则：回退先确认已验收版本并保留历史；合并进主分支不等于上线。
 - `SKILL.md` 路由表新增「需要记录一条重要决定 → assets/decision.template.md」。
+- `SKILL.md` 「两条硬规则」改名「Git 与上线纪律」并补上小节前的空行。
+- `scripts/audit.sh` W1 只报真正越界的指标（`AGENTS.md` 或 `AGENTS.md:<行号>`）；W2 补 CLAUDE.md 多余非空行的行号。
+- `assets/decision.template.md` 顶部注释补落点与首次创建 README 的说明。
 
 ## [2.1.0] - 2026-08-01
 

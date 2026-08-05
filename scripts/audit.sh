@@ -147,9 +147,26 @@ if [ -f AGENTS.md ]; then
 	LINES="$(awk 'END { print NR }' AGENTS.md)"
 	BYTES="$(wc -c < AGENTS.md | awk '{ print $1 }')"
 	# UTF-8 每字符恰好一个非连续字节，去掉连续字节后长度即字符数，不依赖 locale
-	MAXLINE="$(awk '{ line=$0; sub(/\r$/, "", line); gsub(/[\x80-\xBF]/, "", line); if (length(line) > m) m = length(line) } END { print m+0 }' AGENTS.md)"
-	if [ "$LINES" -gt 200 ] || [ "$BYTES" -gt 10240 ] || [ "$MAXLINE" -gt 500 ]; then
-		warn "W1" "AGENTS.md 规则体积超限（${LINES} 行 / ${BYTES} 字节 / 单行最长 ${MAXLINE} 字符）：膨胀说明有内容放错了位置：能机器查的写成检查项，为什么这么定的写进 docs/decisions/，现状快照删掉改成写『跑哪条命令能看到』"
+	MAXINFO="$(awk '{ line=$0; sub(/\r$/, "", line); gsub(/[\x80-\xBF]/, "", line); if (length(line) > m) { m = length(line); ml = NR } } END { print m+0, ml+0 }' AGENTS.md)"
+	MAXLINE="${MAXINFO%% *}"
+	MAXLINE_NO="${MAXINFO##* }"
+	VIOLATIONS=""
+	if [ "$LINES" -gt 200 ] && [ "$BYTES" -gt 10240 ]; then
+		VIOLATIONS="AGENTS.md 行数与字节超限（${LINES} 行 / ${BYTES} 字节，上限 200 行 / 10KB）"
+	elif [ "$LINES" -gt 200 ]; then
+		VIOLATIONS="AGENTS.md 行数超限（${LINES} 行 / 上限 200）"
+	elif [ "$BYTES" -gt 10240 ]; then
+		VIOLATIONS="AGENTS.md 字节超限（${BYTES} 字节 / 上限 10KB）"
+	fi
+	if [ "$MAXLINE" -gt 500 ]; then
+		if [ -n "$VIOLATIONS" ]; then
+			VIOLATIONS="${VIOLATIONS}；AGENTS.md:${MAXLINE_NO} 单行超长（${MAXLINE} 字符 / 上限 500）"
+		else
+			VIOLATIONS="AGENTS.md:${MAXLINE_NO} 单行超长（${MAXLINE} 字符 / 上限 500）"
+		fi
+	fi
+	if [ -n "$VIOLATIONS" ]; then
+		warn "W1" "${VIOLATIONS}：膨胀说明有内容放错了位置：能机器查的写成检查项，为什么这么定的写进 docs/decisions/，现状快照删掉改成写『跑哪条命令能看到』"
 	else
 		ok "W1" "AGENTS.md 规则体积在预算内（${LINES} 行 / ${BYTES} 字节 / 单行最长 ${MAXLINE} 字符）"
 	fi
@@ -179,14 +196,20 @@ if [ -f AGENTS.md ] && [ -f CLAUDE.md ]; then
 					line = before substr(rest, end + 3)
 				}
 			}
-			if (line !~ /^[[:space:]]*$/) print line
+			if (line !~ /^[[:space:]]*$/) printf "%d:%s\n", NR, line
 		}
 	' CLAUDE.md)"
 	COUNT="$(printf '%s\n' "$BODY" | grep -c . || true)"
 	if [ "$COUNT" -eq 1 ] && printf '%s' "$BODY" | grep -q 'AGENTS.md'; then
 		ok "W2" "CLAUDE.md 去注释后只有一行指向 AGENTS.md，真身唯一"
 	else
-		warn "W2" "两份规则必然分叉，选一份当真身：CLAUDE.md 去注释后应有且仅有一行指向 AGENTS.md，现在有 ${COUNT} 行非空内容"
+		EXTRA="$( { printf '%s' "$BODY" | grep -v 'AGENTS.md' || true; printf '%s' "$BODY" | grep 'AGENTS.md' | tail -n +2 || true; } | sed 's/:.*$//' | sort -n | tr '\n' ' ' | sed 's/ $//' )"
+		if [ -n "$EXTRA" ]; then
+			POS="$(printf '%s' "$EXTRA" | sed 's/^/CLAUDE.md:/; s/ / CLAUDE.md:/g')"
+			warn "W2" "两份规则必然分叉，选一份当真身：${POS}（CLAUDE.md 去注释后应有且仅有一行指向 AGENTS.md，现有 ${COUNT} 行非空内容）"
+		else
+			warn "W2" "两份规则必然分叉，选一份当真身：CLAUDE.md 去注释后没有一行指向 AGENTS.md（现有 ${COUNT} 行非空内容）"
+		fi
 	fi
 else
 	na "W2" "AGENTS.md 与 CLAUDE.md 未并存，跳过"; fi
