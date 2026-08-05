@@ -142,12 +142,14 @@ elif [ "$LOCKED" = "1" ]; then ok "C23" "依赖锁定文件已提交进 Git"
 else no "C23" "有依赖清单但锁定文件没提交，换台机器装出来可能不是同一份代码"; fi
 
 # W1/W2 先以 warn 进场跑满一个版本，下一版由一次显式提交转硬拦。
-# W1 规则体积（AGENTS.md ≤200 行 / ≤10KB / 单行 ≤500 字符）
+# W1 规则体积（AGENTS.md ≤200 行 / ≤10KB / 单行 ≤500 字符；统计前去行尾 CR）
 if [ -f AGENTS.md ]; then
-	LINES="$(awk 'END { print NR }' AGENTS.md)"
-	BYTES="$(wc -c < AGENTS.md | awk '{ print $1 }')"
+	# 去掉行尾 CR 再统计：Windows 检出的 CRLF 每行多一字节，同一份文件在不同平台会报不同字节数
+	w1_content() { tr -d '\r' < AGENTS.md; }
+	LINES="$(w1_content | awk 'END { print NR }')"
+	BYTES="$(w1_content | wc -c | awk '{ print $1 }')"
 	# UTF-8 每字符恰好一个非连续字节，去掉连续字节后长度即字符数，不依赖 locale
-	MAXINFO="$(awk '{ line=$0; sub(/\r$/, "", line); gsub(/[\x80-\xBF]/, "", line); if (length(line) > m) { m = length(line); ml = NR } } END { print m+0, ml+0 }' AGENTS.md)"
+	MAXINFO="$(w1_content | awk '{ line=$0; sub(/\r$/, "", line); gsub(/[\x80-\xBF]/, "", line); if (length(line) > m) { m = length(line); ml = NR } } END { print m+0, ml+0 }')"
 	MAXLINE="${MAXINFO%% *}"
 	MAXLINE_NO="${MAXINFO##* }"
 	VIOLATIONS=""
