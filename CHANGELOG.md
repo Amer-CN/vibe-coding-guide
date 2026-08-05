@@ -22,7 +22,7 @@
 - `docs/decisions/` 三篇档案裁决改为不变量第 1 项，原裁决原句移入影响/根因；8 篇文末补追溯迁移声明。
 - `docs/decisions/README.md` 明令禁止事后编造「被否决的方案」或「失效条件」。
 - `scripts/audit.sh` W3 增加占位统计行（N/M 篇含未填写占位，只统计、不影响退出码）。
-- `assets/decision.template.md` 裁决/不变量注释补槽位判定；`SKILL.md` 铁律 3 补「汇报前删掉已被后续动作推翻的过程性描述」。
+- `assets/decision.template.md` 裁决注释补「与不变量逐字相同即槽位错填」；`SKILL.md` 铁律 3 补「汇报前删掉已被后续动作推翻的过程性描述」。
 
 ## [2.1.0] - 2026-08-01
 
