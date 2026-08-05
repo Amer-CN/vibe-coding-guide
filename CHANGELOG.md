@@ -8,6 +8,7 @@
 - `assets/decision.template.md`：五节式决策档案模板，强调「被否决的方案」与「不变量含失效条件」，文件名用 `YYYY-MM-DD-短横线主题.md`，只追加、不修改。
 - `scripts/audit.sh` 新增 W1 规则体积、W2 单一真身两项检查，先以 warn 进场，只提醒、不影响退出码。
 - `docs/decisions/`：8 篇决策档案 + README（一篇一决策、只追加、推翻时另写新篇并注明取代关系）。
+- `scripts/audit.sh` 新增 W3 决策档案格式检查（warn：文件名与五节齐全）。
 
 ### Changed
 - `SKILL.md` 铁律 4 改为「结论进 AGENTS.md、论证与被否决的方案进 docs/decisions/」；工作流补人眼验收（绿灯 → 启动给用户看 → 用户点头 → 提交 Git）。

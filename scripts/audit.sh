@@ -214,8 +214,35 @@ if [ -f AGENTS.md ] && [ -f CLAUDE.md ]; then
 else
 	na "W2" "AGENTS.md 与 CLAUDE.md 未并存，跳过"; fi
 
+# W3 决策档案格式（warn：文件名 YYYY-MM-DD-主题.md + 五节齐全，纯文本匹配）
+if [ -d docs/decisions ]; then
+	W3_BAD=0
+	for f in docs/decisions/*; do
+		[ -f "$f" ] || continue
+		base="$(basename "$f")"
+		[ "$base" = "README.md" ] && continue
+		if ! printf '%s' "$base" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}-.+\.md$'; then
+			warn "W3" "docs/decisions/$base 文件名不符合 YYYY-MM-DD-主题.md 格式"
+			W3_BAD=1
+		fi
+		MISS=""
+		for h in 影响 根因 裁决 被否决的方案 不变量; do
+			if ! grep -qF "## $h" "$f"; then
+				MISS="${MISS} $h"
+			fi
+		done
+		if [ -n "$MISS" ]; then
+			warn "W3" "docs/decisions/$base 缺节：${MISS# }"
+			W3_BAD=1
+		fi
+	done
+	if [ "$W3_BAD" = "0" ]; then
+		ok "W3" "docs/decisions/ 文件名与五节齐全"
+	fi
+else
+	na "W3" "没有 docs/decisions/ 目录，跳过"; fi
 echo "======================================================"
-echo "⚠️ 提醒 ${WARN} 条：W1/W2 先以 warn 进场，不影响退出码"
+echo "⚠️ 提醒 ${WARN} 条：W1/W2/W3 先以 warn 进场，不影响退出码"
 cat <<'EOF'
 
 这个脚本只做了文本匹配，能力有限：
