@@ -24,7 +24,7 @@
 - `scripts/audit.sh` W3 增加占位统计行（N/M 篇含未填写占位，只统计、不影响退出码）。
 - `AGENTS.md` 第三节新增「跨文件搬运必须提交原句→现句逐条对照」。
 - `assets/decision.template.md` 裁决注释补「与不变量逐字相同即槽位错填」；`SKILL.md` 铁律 3 补「汇报前删掉已被后续动作推翻的过程性描述」。
-- `AGENTS.md` 已知不做中 shellcheck 具体条数不再写入文档：数字会随 .sh 改动腐化（原记 16、实测 10），实际条数以 shellcheck --format=json 现算为准。
+- `AGENTS.md` 已知不做中 shellcheck 告警数不再写入文档：原记 16、实测 10 仅作历史说明，数字会随 .sh 改动腐化，实际条数以 shellcheck --format=json 现算为准。
 - `SKILL.md` 符号约定补 📊（统计信息：只统计、不拦截、不影响退出码）。
 
 ## [2.1.0] - 2026-08-01
