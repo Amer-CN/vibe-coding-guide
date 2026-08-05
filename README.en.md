@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/%F0%9F%A4%96%20works%20with-any%20AI-brightgreen" alt="works with any AI">
   <img src="https://img.shields.io/badge/%F0%9F%93%84%20license-Dual-orange" alt="dual license">
   <img src="https://img.shields.io/badge/docs-EN%20%2B%20%E4%B8%AD%E6%96%87-9cf" alt="EN plus Chinese">
-  <img src="https://img.shields.io/badge/version-v2.1.0-blue" alt="version">
+  <img src="https://img.shields.io/badge/version-v2.2.0-blue" alt="version">
 </p>
 
 <p align="center"><a href="README.md">简体中文</a> | <b>English</b></p>
@@ -80,9 +80,10 @@ rules automatically. You can also call it by name with `/vibe-coding-guide`.
 1. **Think first, then act** — before changing code, the AI must explain: what it's changing, why, and what it affects.
 2. **Eleven red lines** — from how passwords are stored and money is calculated, to AI-feature injection defense, the dependency supply chain, and unattended agent operations. Each one has an expanded explanation and a way to check it.
 3. **Actually blocks things** (Claude Code plugin install) — irreversible operations like deleting a root directory, force-pushing the main branch, or dropping a database simply won't run; installing dependencies, altering table structure, and deploying to production trigger a confirmation that names the red line involved. **Other install methods and other AIs get the rules only — no enforcement layer.**
-4. **One-line check-up** — `bash scripts/audit.sh` runs the machine-checkable part of the 25-item delivery checklist, printing ✅／❌ with precise `file:line` references. It also lists what it can't check.
+4. **One-line check-up** — `bash scripts/audit.sh` runs the machine-checkable part of the 25-item delivery checklist, printing ✅／❌ with precise `file:line` references. It also lists what it can't check — and now flags the health of the rules themselves: whether the source-of-truth doc has bloated past the point anyone reads it, or two rule files are fighting each other.
 5. **Speak plainly** — the AI's explanations should be understandable to you, not a dump of code and errors.
-6. **Templates to copy** — project source-of-truth doc, `.gitignore`, and delivery check-up report: three skeletons ready to take and adapt.
+6. **Templates to copy** — project source-of-truth doc, `.gitignore`, delivery check-up report, and decision archive: four skeletons ready to take and adapt.
+7. **Write down the "why"** — two months from now, even you won't remember why you rejected the other option. The decision template gives you a one-page skeleton: what was decided, what was rejected, and what must always stay true. Conclusions go into the source-of-truth doc; the reasoning stays in the archive. Don't mix them.
 
 ---
 
@@ -257,13 +258,17 @@ vibe-coding-guide/
 ├── assets/                     # Ready-to-use templates — copy and adapt
 │   ├── AGENTS.template.md      # Source-of-truth project doc template
 │   ├── gitignore.template      # Excludes secrets and data files
-│   └── delivery-report.template.md  # Delivery check-up report template
+│   ├── delivery-report.template.md  # Delivery check-up report template
+│   └── decision.template.md    # Decision archive template (why you decided)
+├── docs/
+│   └── decisions/              # This repo's own decision archive (a real example)
 ├── scripts/                    # Runnable check-up scripts
 │   └── audit.sh                # Scans machine-checkable checklist items
 ├── hooks/                      # Enforcement hooks, active once the plugin is enabled
 │   ├── hooks.json              # Hook configuration
 │   ├── guard-bash.sh           # Dangerous command guard
-│   └── guard-write.sh          # Dangerous write guard
+│   ├── guard-write.sh          # Dangerous write guard
+│   └── _common.sh              # Shared guard functions
 ├── install.sh                  # One-line install script (Claude Code)
 ├── .claude-plugin/             # Plugin marketplace config
 ├── CHANGELOG.md                # Version history
@@ -271,6 +276,18 @@ vibe-coding-guide/
 ├── README.md                   # Chinese (default)
 └── README.en.md                # This file (English)
 ```
+
+---
+
+## This repo follows its own rules
+
+This isn't just advice for others. This repository runs on the same system:
+
+- `AGENTS.md` is its own source-of-truth doc, and the check-up warns when it bloats past the point anyone reads it.
+- `docs/decisions/` holds its own decision archive — including the mistakes and how they were fixed later.
+- Every change has to pass `bash scripts/audit.sh .` before it gets committed.
+
+If you want to see what these rules look like in practice, read those three places instead of the docs.
 
 ---
 
