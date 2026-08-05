@@ -6,6 +6,7 @@
 
 ### Changed
 - README 中英文同步 2.2.0 结构与新增能力。
+- `scripts/audit.sh` W1 统计前去掉行尾 CR，同一份 AGENTS.md 在 Windows 与 Linux 上报出相同字节数。
 
 ## [2.2.0] - 2026-08-05
 
