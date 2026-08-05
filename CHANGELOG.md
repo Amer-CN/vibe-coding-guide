@@ -2,6 +2,11 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [Unreleased]
+
+### Changed
+- README 中英文同步 2.2.0 结构与新增能力。
+
 ## [2.2.0] - 2026-08-05
 
 ### Added

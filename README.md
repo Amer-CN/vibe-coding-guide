@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/%F0%9F%A4%96%20works%20with-any%20AI-brightgreen" alt="works with any AI">
   <img src="https://img.shields.io/badge/%F0%9F%93%84%20license-Dual-orange" alt="dual license">
   <img src="https://img.shields.io/badge/docs-EN%20%2B%20%E4%B8%AD%E6%96%87-9cf" alt="EN plus Chinese">
-  <img src="https://img.shields.io/badge/version-v2.1.0-blue" alt="version">
+  <img src="https://img.shields.io/badge/version-v2.2.0-blue" alt="version">
 </p>
 
 <p align="center"><b>简体中文</b> | <a href="README.en.md">English</a></p>
@@ -80,9 +80,14 @@ Claude Code，两行命令：
    不可逆操作直接执行不了；装依赖、改表结构、部署上线会弹确认并告诉你违反了
    第几条红线。**其他安装方式和其他 AI 只有规矩，没有这层强制拦截。**
 4. **一行命令做体检** — `bash scripts/audit.sh`，把 25 条交付清单里机器能查的
-   部分跑一遍，输出 ✅／❌ 和精确到 `文件:行号`。它还会主动列出自己查不了的项。
+   部分跑一遍，输出 ✅／❌ 和精确到 `文件:行号`。它还会主动列出自己查不了的项，
+   顺带提醒你规矩本身健不健康：真源文档有没有膨胀到没人读、有没有两份规矩打架。
 5. **说人话，不打哑谜** — AI 的解释要让你能听懂，而不是甩一堆代码和报错了事。
-6. **现成模板直接抄** — 项目真源文档、`.gitignore`、交付体检报告，三份骨架拿走就用。
+6. **现成模板直接抄** — 项目真源文档、`.gitignore`、交付体检报告、决策档案，
+   四份骨架拿走就用。
+7. **记下“为什么这么定”** — 过两个月你自己都想不起来当初为什么否决了另一个方案。
+   决策档案模板给你一页纸的骨架：定了什么、否决了什么、什么必须永远为真。
+   结论写进真源文档，论证留在档案里，别混在一起。
 
 ---
 
@@ -261,13 +266,17 @@ vibe-coding-guide/
 ├── assets/                     # 现成模板，直接抄走改
 │   ├── AGENTS.template.md      # 项目真源文档模板
 │   ├── gitignore.template      # 密钥与数据文件排除
-│   └── delivery-report.template.md  # 交付体检报告
+│   ├── delivery-report.template.md  # 交付体检报告
+│   └── decision.template.md    # 决策档案模板（为什么这么定）
+├── docs/
+│   └── decisions/              # 本项目自己的决策档案（当样板看）
 ├── scripts/                    # 能直接跑的体检脚本
 │   └── audit.sh                # 自动扫描清单里可机检的部分
 ├── hooks/                      # 强制护栏（插件启用后自动生效）
 │   ├── hooks.json              # 护栏配置
 │   ├── guard-bash.sh           # 危险命令拦截
-│   └── guard-write.sh          # 危险写入拦截
+│   ├── guard-write.sh          # 危险写入拦截
+│   └── _common.sh              # 护栏共用函数
 ├── install.sh                  # 一键安装脚本（Claude Code）
 ├── .claude-plugin/             # 插件市场配置
 ├── CHANGELOG.md                # 版本变更记录
@@ -275,6 +284,18 @@ vibe-coding-guide/
 ├── README.md                   # 本文件（中文）
 └── README.en.md                # 英文版
 ```
+
+---
+
+## 这套规矩，本仓库自己也在守
+
+不是写给别人看的。这个仓库自己就按这套跑：
+
+- `AGENTS.md` 是它自己的真源文档，膨胀到没人读的时候体检会提醒。
+- `docs/decisions/` 里是它自己的决策档案——包括判断失误和后来怎么改的。
+- 每次改动都要过 `bash scripts/audit.sh .`，不绿不提交。
+
+想知道这套规矩落到实处长什么样，翻这三处比看文档快。
 
 ---
 

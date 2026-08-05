@@ -9,7 +9,7 @@
       "name": "vibe-coding-guide",
       "source": "./",
       "description": "给 AI 编程立规矩的安全护栏，让小白也能放心让 AI 动手改代码。",
-      "version": "2.1.0"
+      "version": "2.2.0"
     }
   ]
 }
