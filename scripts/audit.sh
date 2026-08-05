@@ -217,10 +217,16 @@ else
 # W3 决策档案格式（warn：文件名 YYYY-MM-DD-主题.md + 五节齐全，纯文本匹配）
 if [ -d docs/decisions ]; then
 	W3_BAD=0
+	W3_TOTAL=0
+	W3_PLACEHOLDERS=0
 	for f in docs/decisions/*; do
 		[ -f "$f" ] || continue
 		base="$(basename "$f")"
 		[ "$base" = "README.md" ] && continue
+		W3_TOTAL=$((W3_TOTAL+1))
+		if grep -qF '原始记录未载' "$f"; then
+			W3_PLACEHOLDERS=$((W3_PLACEHOLDERS+1))
+		fi
 		if ! printf '%s' "$base" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}-.+\.md$'; then
 			warn "W3" "docs/decisions/$base 文件名不符合 YYYY-MM-DD-主题.md 格式"
 			W3_BAD=1
@@ -239,6 +245,7 @@ if [ -d docs/decisions ]; then
 	if [ "$W3_BAD" = "0" ]; then
 		ok "W3" "docs/decisions/ 文件名与五节齐全"
 	fi
+	printf '[📊] %-5s %s\n' "W3" "${W3_PLACEHOLDERS}/${W3_TOTAL} 篇含未填写占位（只统计，不影响退出码）"
 else
 	na "W3" "没有 docs/decisions/ 目录，跳过"; fi
 echo "======================================================"

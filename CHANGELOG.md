@@ -19,6 +19,9 @@
 - `assets/decision.template.md` 顶部注释补落点与首次创建 README 的说明。
 - `AGENTS.md` 第三节瘦身为当前生效的祈使句规矩，第九节表格替换为 `docs/decisions/` 索引；删除 3 条第九节重复杂目（一进一出抵扣 3 条）；2 条被否决方案描述原样移入档案（论证资产，不计入抵扣）。
 - `assets/decision.template.md` 顶部注释补「格式范例见本仓库 docs/decisions/」。
+- `docs/decisions/` 三篇档案裁决改为不变量第 1 项，原裁决原句移入影响/根因；8 篇文末补追溯迁移声明。
+- `docs/decisions/README.md` 明令禁止事后编造「被否决的方案」或「失效条件」。
+- `scripts/audit.sh` W3 增加占位统计行（N/M 篇含未填写占位，只统计、不影响退出码）。
 
 ## [2.1.0] - 2026-08-01
 
