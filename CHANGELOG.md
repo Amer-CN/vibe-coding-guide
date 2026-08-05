@@ -2,6 +2,28 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [2.2.0] - 2026-08-05
+
+### Added
+- `assets/decision.template.md`：五节式决策档案模板，强调「被否决的方案」与「不变量含失效条件」，文件名用 `YYYY-MM-DD-短横线主题.md`，只追加、不修改。
+- `scripts/audit.sh` 新增 W1 规则体积、W2 单一真身两项检查，先以 warn 进场，只提醒、不影响退出码。
+- `docs/decisions/`：8 篇决策档案 + README（一篇一决策、只追加、推翻时另写新篇并注明取代关系）。
+- `scripts/audit.sh` 新增 W3 决策档案格式检查（warn：文件名与五节齐全）。
+
+### Changed
+- `SKILL.md` 铁律 4 改为「结论进 AGENTS.md、论证与被否决的方案进 docs/decisions/」；工作流补人眼验收（绿灯 → 启动给用户看 → 用户点头 → 提交 Git）。
+- `SKILL.md` 新增两条硬规则：回退先确认已验收版本并保留历史；合并进主分支不等于上线。
+- `SKILL.md` 路由表新增「需要记录一条重要决定 → assets/decision.template.md」。
+- `SKILL.md` 「两条硬规则」改名「Git 与上线纪律」并补上小节前的空行。
+- `scripts/audit.sh` W1 只报真正越界的指标（`AGENTS.md` 或 `AGENTS.md:<行号>`）；W2 补 CLAUDE.md 多余非空行的行号。
+- `assets/decision.template.md` 顶部注释补落点与首次创建 README 的说明。
+- `AGENTS.md` 第三节瘦身为当前生效的祈使句规矩，第九节表格替换为 `docs/decisions/` 索引；删除 3 条第九节重复杂目（一进一出抵扣 3 条）；2 条被否决方案描述原样移入档案（论证资产，不计入抵扣）。
+- `assets/decision.template.md` 顶部注释补「格式范例见本仓库 docs/decisions/」。
+- `docs/decisions/` 三篇档案裁决改为不变量第 1 项，原裁决原句移入影响/根因；8 篇文末补追溯迁移声明。
+- `docs/decisions/README.md` 明令禁止事后编造「被否决的方案」或「失效条件」。
+- `scripts/audit.sh` W3 增加占位统计行（N/M 篇含未填写占位，只统计、不影响退出码）。
+- `assets/decision.template.md` 裁决注释补「与不变量逐字相同即槽位错填」；`SKILL.md` 铁律 3 补「汇报前删掉已被后续动作推翻的过程性描述」。
+
 ## [2.1.0] - 2026-08-01
 
 ### Added

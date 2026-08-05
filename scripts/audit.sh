@@ -8,6 +8,7 @@ SELF_ABS="$(cd "$(dirname "$0")" 2>/dev/null && pwd)/$(basename "$0")"
 cd "$TARGET" 2>/dev/null || { echo "找不到目录：$TARGET" >&2; exit 2; }
 
 FAIL=0
+WARN=0
 # 只排除脚本自己这一个文件，不排除 scripts/ 或 hooks/ 目录——
 # 用户项目里那两个目录常有真代码要审（插件安装场景 SELF_REL 为空，行为不变）。
 ROOT_ABS="$(pwd)"
@@ -25,6 +26,7 @@ EX="--exclude-dir=.git --exclude-dir=node_modules --exclude-dir=vendor
 ok()   { printf '[✅] %-5s %s\n' "$1" "$2"; }
 no()   { printf '[❌] %-5s %s\n' "$1" "$2"; FAIL=1; }
 na()   { printf '[➖] %-5s %s\n' "$1" "$2"; }
+warn() { printf '[⚠️] %-5s %s\n' "$1" "$2"; WARN=$((WARN+1)); }
 ev()   { printf '%s\n' "$1" | head -n 5 | sed 's/^/           /'; }
 
 scan() {
@@ -139,7 +141,115 @@ if [ "$NEEDED" = "0" ]; then na "C23" "未发现依赖清单，跳过"
 elif [ "$LOCKED" = "1" ]; then ok "C23" "依赖锁定文件已提交进 Git"
 else no "C23" "有依赖清单但锁定文件没提交，换台机器装出来可能不是同一份代码"; fi
 
+# W1/W2 先以 warn 进场跑满一个版本，下一版由一次显式提交转硬拦。
+# W1 规则体积（AGENTS.md ≤200 行 / ≤10KB / 单行 ≤500 字符）
+if [ -f AGENTS.md ]; then
+	LINES="$(awk 'END { print NR }' AGENTS.md)"
+	BYTES="$(wc -c < AGENTS.md | awk '{ print $1 }')"
+	# UTF-8 每字符恰好一个非连续字节，去掉连续字节后长度即字符数，不依赖 locale
+	MAXINFO="$(awk '{ line=$0; sub(/\r$/, "", line); gsub(/[\x80-\xBF]/, "", line); if (length(line) > m) { m = length(line); ml = NR } } END { print m+0, ml+0 }' AGENTS.md)"
+	MAXLINE="${MAXINFO%% *}"
+	MAXLINE_NO="${MAXINFO##* }"
+	VIOLATIONS=""
+	if [ "$LINES" -gt 200 ] && [ "$BYTES" -gt 10240 ]; then
+		VIOLATIONS="AGENTS.md 行数与字节超限（${LINES} 行 / ${BYTES} 字节，上限 200 行 / 10KB）"
+	elif [ "$LINES" -gt 200 ]; then
+		VIOLATIONS="AGENTS.md 行数超限（${LINES} 行 / 上限 200）"
+	elif [ "$BYTES" -gt 10240 ]; then
+		VIOLATIONS="AGENTS.md 字节超限（${BYTES} 字节 / 上限 10KB）"
+	fi
+	if [ "$MAXLINE" -gt 500 ]; then
+		if [ -n "$VIOLATIONS" ]; then
+			VIOLATIONS="${VIOLATIONS}；AGENTS.md:${MAXLINE_NO} 单行超长（${MAXLINE} 字符 / 上限 500）"
+		else
+			VIOLATIONS="AGENTS.md:${MAXLINE_NO} 单行超长（${MAXLINE} 字符 / 上限 500）"
+		fi
+	fi
+	if [ -n "$VIOLATIONS" ]; then
+		warn "W1" "${VIOLATIONS}：膨胀说明有内容放错了位置：能机器查的写成检查项，为什么这么定的写进 docs/decisions/，现状快照删掉改成写『跑哪条命令能看到』"
+	else
+		ok "W1" "AGENTS.md 规则体积在预算内（${LINES} 行 / ${BYTES} 字节 / 单行最长 ${MAXLINE} 字符）"
+	fi
+else
+	na "W1" "项目根没有 AGENTS.md，跳过"; fi
+
+# W2 单一真身（AGENTS.md 与 CLAUDE.md 并存时，CLAUDE.md 去注释后只能有一行指向 AGENTS.md）
+if [ -f AGENTS.md ] && [ -f CLAUDE.md ]; then
+	BODY="$(awk '
+		BEGIN { in_comment = 0 }
+		{
+			line = $0
+			sub(/\r$/, "", line)
+			while (1) {
+				if (in_comment) {
+					end = index(line, "-->")
+					if (end == 0) { line = ""; break }
+					line = substr(line, end + 3)
+					in_comment = 0
+				} else {
+					start = index(line, "<!--")
+					if (start == 0) break
+					before = substr(line, 1, start - 1)
+					rest = substr(line, start + 4)
+					end = index(rest, "-->")
+					if (end == 0) { line = before; in_comment = 1; break }
+					line = before substr(rest, end + 3)
+				}
+			}
+			if (line !~ /^[[:space:]]*$/) printf "%d:%s\n", NR, line
+		}
+	' CLAUDE.md)"
+	COUNT="$(printf '%s\n' "$BODY" | grep -c . || true)"
+	if [ "$COUNT" -eq 1 ] && printf '%s' "$BODY" | grep -q 'AGENTS.md'; then
+		ok "W2" "CLAUDE.md 去注释后只有一行指向 AGENTS.md，真身唯一"
+	else
+		EXTRA="$( { printf '%s' "$BODY" | grep -v 'AGENTS.md' || true; printf '%s' "$BODY" | grep 'AGENTS.md' | tail -n +2 || true; } | sed 's/:.*$//' | sort -n | tr '\n' ' ' | sed 's/ $//' )"
+		if [ -n "$EXTRA" ]; then
+			POS="$(printf '%s' "$EXTRA" | sed 's/^/CLAUDE.md:/; s/ / CLAUDE.md:/g')"
+			warn "W2" "两份规则必然分叉，选一份当真身：${POS}（CLAUDE.md 去注释后应有且仅有一行指向 AGENTS.md，现有 ${COUNT} 行非空内容）"
+		else
+			warn "W2" "两份规则必然分叉，选一份当真身：CLAUDE.md 去注释后没有一行指向 AGENTS.md（现有 ${COUNT} 行非空内容）"
+		fi
+	fi
+else
+	na "W2" "AGENTS.md 与 CLAUDE.md 未并存，跳过"; fi
+
+# W3 决策档案格式（warn：文件名 YYYY-MM-DD-主题.md + 五节齐全，纯文本匹配）
+if [ -d docs/decisions ]; then
+	W3_BAD=0
+	W3_TOTAL=0
+	W3_PLACEHOLDERS=0
+	for f in docs/decisions/*; do
+		[ -f "$f" ] || continue
+		base="$(basename "$f")"
+		[ "$base" = "README.md" ] && continue
+		W3_TOTAL=$((W3_TOTAL+1))
+		if grep -qF '原始记录未载' "$f"; then
+			W3_PLACEHOLDERS=$((W3_PLACEHOLDERS+1))
+		fi
+		if ! printf '%s' "$base" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}-.+\.md$'; then
+			warn "W3" "docs/decisions/$base 文件名不符合 YYYY-MM-DD-主题.md 格式"
+			W3_BAD=1
+		fi
+		MISS=""
+		for h in 影响 根因 裁决 被否决的方案 不变量; do
+			if ! grep -qF "## $h" "$f"; then
+				MISS="${MISS} $h"
+			fi
+		done
+		if [ -n "$MISS" ]; then
+			warn "W3" "docs/decisions/$base 缺节：${MISS# }"
+			W3_BAD=1
+		fi
+	done
+	if [ "$W3_BAD" = "0" ]; then
+		ok "W3" "docs/decisions/ 文件名与五节齐全"
+	fi
+	printf '[📊] %-5s %s\n' "W3" "${W3_PLACEHOLDERS}/${W3_TOTAL} 篇含未填写占位（只统计，不影响退出码）"
+else
+	na "W3" "没有 docs/decisions/ 目录，跳过"; fi
 echo "======================================================"
+echo "⚠️ 提醒 ${WARN} 条：W1/W2/W3 先以 warn 进场，不影响退出码"
 cat <<'EOF'
 
 这个脚本只做了文本匹配，能力有限：
