@@ -7,6 +7,7 @@
 ### Added
 - `assets/decision.template.md`：五节式决策档案模板，强调「被否决的方案」与「不变量含失效条件」，文件名用 `YYYY-MM-DD-短横线主题.md`，只追加、不修改。
 - `scripts/audit.sh` 新增 W1 规则体积、W2 单一真身两项检查，先以 warn 进场，只提醒、不影响退出码。
+- `docs/decisions/`：8 篇决策档案 + README（一篇一决策、只追加、推翻时另写新篇并注明取代关系）。
 
 ### Changed
 - `SKILL.md` 铁律 4 改为「结论进 AGENTS.md、论证与被否决的方案进 docs/decisions/」；工作流补人眼验收（绿灯 → 启动给用户看 → 用户点头 → 提交 Git）。
@@ -15,6 +16,8 @@
 - `SKILL.md` 「两条硬规则」改名「Git 与上线纪律」并补上小节前的空行。
 - `scripts/audit.sh` W1 只报真正越界的指标（`AGENTS.md` 或 `AGENTS.md:<行号>`）；W2 补 CLAUDE.md 多余非空行的行号。
 - `assets/decision.template.md` 顶部注释补落点与首次创建 README 的说明。
+- `AGENTS.md` 第三节瘦身为当前生效的祈使句规矩，第九节表格替换为 `docs/decisions/` 索引；删除 3 条第九节重复杂目与 2 条被否决方案描述，论证全部迁入档案。
+- `assets/decision.template.md` 顶部注释补「格式范例见本仓库 docs/decisions/」。
 
 ## [2.1.0] - 2026-08-01
 

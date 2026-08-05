@@ -20,24 +20,19 @@
 | `assets/` | 模板三件套：`AGENTS.template.md`（真源文档骨架）、`gitignore.template`、`delivery-report.template.md`（交付体检报告） |
 | `scripts/audit.sh` | 自动体检：把清单里能机器查的部分跑一遍，输出 ✅／❌ 与 `文件:行号` |
 | `hooks/` | Claude Code PreToolUse 强制护栏：`hooks.json`（配置）+ `guard-bash.sh`（危险命令）+ `guard-write.sh`（危险写入）+ `_common.sh`（共用函数，fail-open） |
-| `install.sh` | 一键安装（克隆到 `~/.claude/skills/`）。只装规矩本，护栏不保证生效（见设计决策） |
+| `install.sh` | 一键安装（克隆到 `~/.claude/skills/`）。只装规矩本，护栏不保证生效（见 docs/decisions/） |
 | `.claude-plugin/` | 插件市场配置（plugin.json / marketplace.json） |
-| `CHANGELOG.md` | 版本变更记录（历史小节不回改，见设计决策） |
+| `CHANGELOG.md` | 版本变更记录（历史小节不回改，见 docs/decisions/） |
 | `README.md` / `README.en.md` | 对外介绍（双语） |
 | `LICENSE.md` | 双重许可（中文为权威版本） |
 
-## 三、关键设计决策与理由
+## 三、关键设计决策
 
-1. **护栏是「极窄 deny + 带编号的 ask」，不是全 ask、也不是开关式。**
-   deny 只放“几乎不存在正当理由”的操作（删根/家/系统目录、强推主分支、删库、`curl | bash`、递归 777、格式化磁盘）——宁可漏拦，不可误伤；其余有正当理由但需确认的操作走 ask，提示里标明违反了第几条红线。全 ask 会把日常操作变成噪音（用户会直接麻木地点确认），开关式则大多数人不会去开。
-2. **install.sh 路径的护栏标注为「不保证生效」。**
-   护栏是否随 `~/.claude/skills/` 目录安装生效，从未做过真机验证（作者无 Claude Code 环境）。文档不对未实测的事做承诺——README 明确区分“规矩本安装”与“完整安装（插件方式）”，并给出 `/hooks` 一条命令的自我确诊方法。宁可保守，不可让用户以为有护栏实际没有。
-3. **CHANGELOG 历史小节不回改。**
-   `[1.1.0]` 里写“四铁律 + 八红线”是当时的真实状态，后来改成五条铁律、十一条红线时不回改历史记录——历史是事实，不随后续改名重写；新变更写进新小节。grep 校验旧措辞时排除 CHANGELOG。
-4. **四个 .sh 在仓库里是 LF，Windows 工作树是 CRLF。**
-   跑 shellcheck 必须用 `git show HEAD:<file>` 取 LF 版再检查，否则会被 SC1017（Literal carriage return）淹没——曾出现过“277 条告警”里 261 条是行尾噪声的情况，真实告警只有 16 条。先 `git ls-files --eol` 看行尾，再统计数字。
-5. **文档里表示程序实际输出的字面量，不参与标点规范化。**
-   `audit.sh` 打印的是半角冒号（如 `./src/app.js:3`），文档里的 `文件:行号` 是它的字面引用——批量全角化标点前必须先把这类“程序输出字面量”排除，否则为了格式统一改掉对事实的描述（这与改样例迁就实现是同一类错误）。
+1. 护栏保持「极窄 deny + 带编号的 ask」：deny 只放几乎不存在正当理由的操作。
+2. install.sh 路径的护栏标注为「不保证生效」。
+3. CHANGELOG 历史小节不回改，新变更写进新小节。
+4. 四个 .sh 的 shellcheck 必须用 git show HEAD:<file> 取 LF 版。
+5. 程序输出字面量不参与标点规范化。
 
 ## 四、协作纪律
 
@@ -54,7 +49,7 @@
 
 - 自动体检（必须有）：`bash scripts/audit.sh .`，应退出码 0
 - 语法检查：`bash -n` 四个 .sh
-- Shell 检查：`git show HEAD:<file> > /tmp/x && shellcheck /tmp/x`（LF 版，见设计决策 4）
+- Shell 检查：`git show HEAD:<file> > /tmp/x && shellcheck /tmp/x`（LF 版，见 docs/decisions/）
 - 结构校验：代码块围栏成对、表格列一致、无连续分隔线（`---` 空行 `---`）与三连空行
 
 > 全绿才算通过。跑不起来的命令不许写进这张表。
@@ -82,11 +77,4 @@
 
 ## 九、决策记录
 
-| 日期 | 定了什么 | 为什么 | 谁定的 |
-|---|---|---|---|
-| 2026-08-01 | 护栏 deny 名单窄到极致（宁可漏拦不可误伤） | 误伤日常操作会让人对护栏麻木 | 作者 |
-| 2026-08-01 | install.sh 诚实标注“护栏不保证生效” | 未真机验证，不承诺未实测的事 | 作者 |
-| 2026-08-01 | CHANGELOG 历史小节不回改 | 历史记录当时事实，不随后续改名重写 | 作者 |
-| 2026-08-01 | 本文件（AGENTS.md）建立 | 补铁律 4 在本仓库自身的缺失 | 作者 |
-| 2026-08-05 | 铁律 4 拆成规则/档案两处 | AGENTS.md 每次会话被完整读入，论证塞进去必然撑爆 | 仓库所有者 |
-| 2026-08-05 | 新检查一律先以 warn 落地一个版本再转硬拦 | 一次发布不得让用户什么都没改的仓库从绿变红 | 仓库所有者 |
+历史决策与论证见 `docs/decisions/`（只追加、不修改）。
